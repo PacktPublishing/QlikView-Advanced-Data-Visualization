@@ -1,2 +1,2 @@
 # QlikView-Advanced-Data-Visualization
-Expert QlikView techniques to solve complex Business Intelligence problems
+Discover deeper insights with Qlikview by building your own rich analytical applications from scratch
