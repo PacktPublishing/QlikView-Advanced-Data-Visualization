@@ -1,0 +1,68 @@
+
+// Basic map
+Mapping_Table:
+Mapping
+Load * Inline [
+LookupID, LookupValue
+1, First
+2, Second
+3, Third
+];
+
+
+Table:
+Load
+	ID,
+	Name,
+	ApplyMap('Mapping_Table', PositionID, 'Other') As Position
+Inline [
+ID, Name, PositionID
+101, Joe, 1
+102, Jane, 2
+103, Tom, 3
+104, Mika, 4
+];
+
+Product_Cost_Map:
+Load
+	Floor(MonthStart(CostMonth)) & '-' & ProductID As LookupID,
+	[Cost Value] As LookupValue;
+SQL SELECT * From [Monthly Product Cost];
+
+Fact:
+Load
+	...
+	SalesDate,
+	ProductID,
+	Quantity,
+	ApplyMap('Product_Cost_Map', Floor(MonthStart(SalesDate)) & '-' & ProductID)*Quantity As LineCost,
+	...
+
+
+
+// Basic map
+Mapping_Table:
+Mapping
+Load * Inline [
+LookupID, LookupValue
+1, First
+2, Second.1
+2, Second.2
+3, Third.1
+3, Third.2
+3, Third.3
+];
+
+
+Table:
+Load
+	ID,
+	Name,
+	ApplyMap('Mapping_Table', PositionID, 'Other') As Position
+Inline [
+ID, Name, PositionID
+101, Joe, 1
+102, Jane, 2
+103, Tom, 3
+104, Mika, 4
+];

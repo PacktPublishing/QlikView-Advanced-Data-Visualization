@@ -1,0 +1,188 @@
+//  ____________________________________________________________________________
+// |   Deployment Framework SUBVariable 2.LoadVariableCSV.qvs    
+// | SUB routine used for loading variables stored in csv files into the QlikView Script
+// | Execute (Call) the Sub in the script, by first include the script in the beginning:
+// | $(Include=$(vG.SubPath)\2.LoadVariableCSV.qvs);
+// | and then use:
+// | call LoadVariableCSV('CSV_My Tables.csv', ,Optional vL.SpecificVariable or Tag, Optional vL._ContainerMapMode, Optional Use Comments as Variables, Optional Specify table name, will keep the table after load);
+// | Mandatory switch is csv path and file 'CSV_My Tables.csv'
+// | By using vL._ContainerMapMode the csv will be treated as an ContainerMap.csv file
+// | And Container base Variables will be loaded based on ContainerMap.csv
+
+
+
+SUB LoadVariableCSV(vL._CVSTableName,vL._SpecificVariable,vL._ContainerName,vL._CommentsAsVariables,vL._ContainerMapMode);
+$(Include=$(vG.SubPath)\1.FileExist.qvs);
+
+ // Loading CSV table based on vL._CVSTableName variables.
+if not '$(vL._ContainerName)'='' and not 'vL._CVSTableName'='' then //If a container entry is used find this in the container map
+	call LoadContainerGlobalVariables('$(vL._ContainerName)','BaseVariable');
+	call vL.FileExist ('$(vG.$(vL._ContainerName)BaseVariablePath)$(vL._CVSTableName)');
+	
+	if vL.FileExist = 'true' then
+		Let vL._CVSTableName='$(vG.$(vL._ContainerName)BaseVariablePath)$(vL._CVSTableName)';
+	endif
+	
+elseif not 'vL._CVSTableName'='' then // If vL._ContainerName missing use standard folders
+
+    call vL.FileExist ('$(vL._CVSTableName)');
+
+    if vL.FileExist = 'false' then // Try a second time using default vG.BaseVariablePath 
+        Let vL._CVSTableNameOrig='$(vL._CVSTableName)';                                                                                                                                    //this variable is used in Shared Lookup
+        Let vL._CVSTableName='$(vG.BaseVariablePath)$(vL._CVSTableName)';
+        call vL.FileExist ('$(vL._CVSTableName)');
+    endif
+
+    if vL.FileExist = 'false' then // Try a third time using shared vG.SharedBaseVariablePath 
+        Let vL._CVSTableName='$(vG.SharedBaseVariablePath)$(vL._CVSTableNameOrig)';
+        call vL.FileExist ('$(vL._CVSTableName)');
+    endif
+
+endif
+
+
+if not vL.FileExist = 'false' then
+
+if index('$(vL._CVSTableName)','.csv')=0 then // Add csv if missing	
+		Let vL._CVSTableName='$(vL._CVSTableName)*Variables.csv';
+endif
+
+$(Include=$(vG.SubPath)\5.DoDir.qvs);
+call DoDir('$(vL._CVSTableName)','__DoDir_Tmp_Tbl','','true','true');
+
+let vL.__DoDir_Tmp_Tbl = NoOfRows('__DoDir_Tmp_Tbl');
+
+for vL.__DoDir_Tmp_Tbl_2 = 0 to vL.__DoDir_Tmp_Tbl-1
+
+LET vL._CVSTableName = peek('__DoDir_Tmp_Tbl.FullyQualifiedName',$(vL.__DoDir_Tmp_Tbl_2),'__DoDir_Tmp_Tbl');
+
+if 	index(lower('$(vL._CVSTableName)'),'_backup')=0 then // Do not load if it's a _Backup file 
+
+trace '### DF Starting LoadVariableCSV';
+
+[vL.temp_table]:
+
+REPLACE LOAD *
+FROM
+[$(vL._CVSTableName)]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+//loop through CSV table entries in search for LET and SET expression
+let vL.xxxx = NoOfRows('vL.temp_table');
+
+	for vL.tttt = 0 to vL.xxxx-1
+	
+	LET vL._VariableField = PurgeChar(trim(peek(FieldName(1,'vL.temp_table'),$(vL.tttt),'vL.temp_table')),'=;,-"'&chr(39)); // Find variable field remove unused characters (=;)
+	LET vL._TableUpper = upper(trim(left('$(vL._VariableField)',4))); // Grab LET or SET commands from variable field
+	LET vL._Variable = PurgeChar(subfield(trim('$(vL._VariableField)'), ' ' ,2),';,'&chr(39)); // Grab Variable from variable field 
+	LET vL._Commentfield = PurgeChar(peek(FieldName(3,'vL.temp_table'),$(vL.tttt),'vL.temp_table'),';,'&chr(39)); // Load Comment Field, remove unused characters 
+	LET vL._Tag = PurgeChar(trim(peek(FieldName(4,'vL.temp_table'),$(vL.tttt),'vL.temp_table')),';,'&chr(39)); // Load Tag Field remove unused characters
+
+// Checking if SpecificVariable setting is used, will only search for specific tag one variable
+if not '$(vL._SpecificVariable)' = '' and index(lower('$(vL._Tag)'), lower('$(vL._SpecificVariable)'))=0 then	
+		// Reset vL._VariableFieldand variable will not be executed in Switch 
+		LET vL._TableUpper='NoExecution' ;
+end if		
+	
+// If values are blank no point in going to Switch
+if not '$(vL._VariableField)'='' then
+	
+	// Special tweaks for ContainerMapMode
+	If upper('$(vL._ContainerMapMode)') = 'TRUE'  then
+		SET vL._TableUpper = 'ContainerMapMode';    // Changing to ContainerMapMode to execute in switch
+		LET vL._Variable = 'vG.'&PurgeChar('$(vL._VariableField)',' ')&'BasePath'; // Creating BasePath Variables
+		LET vL._Valuefield = PurgeChar(peek(FieldName(2,'vL.temp_table'),$(vL.tttt),'vL.temp_table'),'=;",'&chr(39));
+		LET vL._AltRootFolderPath = peek(FieldName(4,'vL.temp_table'),$(vL.tttt),'vL.temp_table'); // Root folder if other than default
+		
+			if left(trim('$(vL._AltRootFolderPath)'),2) ='\\' or index('$(vL._AltRootFolderPath)', ':')>0 then // change root to new path
+				LET vL.RootPath = '$(vL._AltRootFolderPath)';
+				else
+				LET vL.RootPath = '$(vG.RootPath)';
+			endif
+			
+		LET vL._Valuefield = '$(vL.RootPath)$(vL._Valuefield)\'; // Creating Container root path 
+		SET vL._TableUpper = 'ContainerMapMode';    // Changing to ContainerMapMode to execute in switch
+	endif;
+	   
+			
+		// Check for SET or LET expressions 
+		switch '$(vL._TableUpper)'
+			case 'LET' 
+				LET $(vL._Variable) = evaluate(peek(FieldName(2,'vL.temp_table'),$(vL.tttt),'vL.temp_table')); // Evaluate LET variables
+				if IsNull($(vL._Variable)) = -1 then // If evaluate do not work try other method
+					LET $(vL._Variable) = peek(FieldName(2,'vL.temp_table'),$(vL.tttt),'vL.temp_table'); // Executing SET variables
+				endif
+				//Use Comments as additional variable (_Comments prefix)
+				if lower('$(vL.CommentsAsVariables)') ='true' or lower('$(vL._CommentsAsVariables)') ='true'  then //Use Comments as additional variable (_Comments prefix)
+					if not '$(vL._Commentfield)' ='' and  not '$(vL._TableUpper)' = 'NoExecution' then // no point in creating a blank variable or variable execution not run
+						LET $(vL._Variable)_Comments = PurgeChar(peek(FieldName(3,'vL.temp_table'),$(vL.tttt),'vL.temp_table'),'=;'&chr(39));
+					endif
+				endif
+			case 'SET'
+				LET $(vL._Variable) = peek(FieldName(2,'vL.temp_table'),$(vL.tttt),'vL.temp_table'); // Executing SET variables
+				//Use Comments as additional variable (_Comments prefix)
+				if lower('$(vL.CommentsAsVariables)') ='true' or lower('$(vL._CommentsAsVariables)') ='true'  then //Use Comments as additional variable (_Comments prefix)
+					if not '$(vL._Commentfield)' ='' and  not '$(vL._TableUpper)' = 'NoExecution' then // no point in creating a blank variable or variable execution not run
+						LET $(vL._Variable)_Comments = PurgeChar(peek(FieldName(3,'vL.temp_table'),$(vL.tttt),'vL.temp_table'),'=;'&chr(39));
+					endif
+				endif
+			case 'ContainerMapMode'
+					SET $(vL._Variable) = '$(vL._Valuefield)'; // Executing SET variable in ContainerMapMode
+			case 'NoExecution'	
+				// No Execution will be done, this is used when executing by a tag
+			default
+				LET $(vL._VariableField) = peek(FieldName(2,'vL.temp_table'),$(vL.tttt),'vL.temp_table'); // Executing SET variables is SEt or LET not specified
+				if lower('$(vL.CommentsAsVariables)') ='true' or lower('$(vL._CommentsAsVariables)') ='true'  then //Use Comments as additional variable (_Comments prefix)
+					if not '$(vL._Commentfield)' ='' and  not '$(vL._TableUpper)' = 'NoExecution' then // no point in creating a blank variable or variable execution not run
+						LET $(vL._VariableField)_Comments = PurgeChar(peek(FieldName(3,'vL.temp_table'),$(vL.tttt),'vL.temp_table'),'=;'&chr(39));
+					endif
+				endif
+		end switch	
+		
+
+endif;
+
+SET vL._TableUpper = ; // Reset TableUpper after every iteration
+SET vL._Commentfield =''; // Reset comment entries 
+
+next vL.tttt
+drop table 'vL.temp_table'; // Dropping CSV Table after variables been read into the QlikView application
+
+endif
+
+next vL.__DoDir_Tmp_Tbl_2
+drop table '__DoDir_Tmp_Tbl'; // Dropping DoDir Table after variables been read into the QlikView application
+
+
+//Resetting variables
+SET vL.tttt = ;
+SET vL.xxxx = ;
+SET vL._Tag =;
+SET vL._VariableField= ;
+SET vL._Variable = ;
+SET vL._Valuefield = ;
+SET vL._Commentfield = ;
+SET vL._AltRootFolderPath = ;
+SET vL._CVSTableName = ;
+SET vL._SpecificVariable = ;
+SET vL._ContainerMapMode = ;
+SET vL._CommentsAsVariables = ;
+SET vL._ContainerName = ;
+SET vL.__DoDir_Tmp_Tbl = ;
+SET vL.__DoDir_Tmp_Tbl_2 = ;
+SET vL._CVSTableNameOrig = ;
+
+
+// Writing information in log
+trace '### DF Ending LoadVariableCSV';
+else
+trace '### DF Error Did not find $(vL._CVSTableName), ending LoadVariableCSV';
+endif;
+SET vL.FileExist = ;
+end sub
+
+
+// **********************************
+// Application written by Magnus Berg
+// QlikView International AB
+// **********************************

@@ -1,0 +1,54 @@
+
+//SalesPerson:
+//LOAD
+//	 Hash256(SalesPersonID, Name, Territory) As HashKey,
+//	 SalesPersonID, 
+//     Name, 
+//     Territory,
+//     '2009-01-01' As From
+//FROM
+//[..\Scripts\SalesPersonList_Initial.txt]
+//(txt, codepage is 1252, embedded labels, delimiter is ',', msq);
+//
+//Store SalesPerson into SalesPerson.QVD;
+
+
+
+SalesPerson_Temp:
+LOAD HashKey, 
+     SalesPersonID, 
+     Name, 
+     Territory, 
+     From
+FROM
+SalesPerson.QVD
+(qvd);
+
+Concatenate (SalesPerson_Temp)
+LOAD
+	 Hash256(SalesPersonID, Name, Territory) As HashKey,
+	 SalesPersonID, 
+     Name, 
+     Territory,
+     Date(Today(), 'YYYY-MM-DD') As From
+FROM
+[..\Scripts\SalesPersonList_Current.txt]
+(txt, codepage is 1252, embedded labels, delimiter is ',', msq)
+Where Not Exists(HashKey, Hash256(SalesPersonID, Name, Territory));
+
+Store SalesPerson_Temp into SalesPerson.QVD;
+
+SalesPerson:
+Load
+	SalesPersonID,
+	Name,
+	Territory,
+	From,
+	Date(If(Previous(SalesPersonID)<>SalesPersonID,
+		Today(),
+		Previous(From)-1), 'YYYY-MM-DD') As To
+Resident
+	SalesPerson_Temp
+Order by SalesPersonID, From Desc;
+
+Drop Table SalesPerson_Temp;

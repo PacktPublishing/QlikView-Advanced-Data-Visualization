@@ -1,0 +1,9 @@
+Grade	Description
+0	President
+1	Sales Manager
+2	Business Development Manager
+3	Tele-Sales Person
+4	Customer Service Team Lead
+5	Customer Service Executive
+6	Warehouse Team Lead
+7	Warehouse Operative

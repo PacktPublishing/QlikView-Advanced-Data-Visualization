@@ -1,0 +1,143 @@
+// SUB routine loading csv Container Map into a QlikView Script, is primarily used by 4.GenericContainerLoader.qvs
+// Execute (Call) the Sub in the script by first include the script in the beginning and then use:
+// call LoadContainerMap('container map csv', 'Name of Container to link'[,'Optional, retrive Root Path by typing current container name']);
+// Container base Variables will be loaded based on ContainerMap.csv
+// will return vL.ContainerPathName vL.ContainerFolderName vL.Comment vL.RootPath 
+
+
+SUB LoadContainerMap(vL.CVSTableName,vL.SpecificVariable,vL.GetRootPath);
+
+//Reset vL.LoadContainerMapCount variable used to identify if two or more identical Variable Prefix exist
+SET vL.LoadContainerMapCount=;
+SET vL._ValidatedBasePath=;
+
+if not '$(vL.GetRootPath)'='' then // If GetRootPath switsh activated find input base and relative path
+// Remove double backslash
+	if index(trim('$(vL.GetRootPath)'),'\\',-1)>2 then // Remove double \\ in path, except in the beginning used in UNC path
+		LET vL.GetRootPath=left( '$(vL.GetRootPath)' , (index( '$(vL.GetRootPath)', '\\', -1 )-1))&right('$(vL.GetRootPath)', (len( '$(vL.GetRootPath)' ) -index( '$(vL.GetRootPath)', '\\', -1 )));
+	endif
+
+let vL._xxx = substringcount ('$(vL.GetRootPath)' , '\'); // Number of sub-folders 
+
+let vL._xxx = $(vL._xxx) + substringcount ('$(vL.GetRootPath)' , '/'); // Do a second search for Qlik Sense LIB folders
+
+	for vL._ttt = vL._xxx to 1 step -1
+
+  if filesize(left( '$(vL.GetRootPath)' , findoneof('$(vL.GetRootPath)' , '\/',vL._ttt) )&'InitLink.qvs') >0 then
+ 		LET vL._ValidatedBasePath=left( '$(vL.GetRootPath)' , findoneof('$(vL.GetRootPath)' , '\/',vL._ttt)); //Found BasePath
+ 		LET vL.RelativePath=mid('$(vL.GetRootPath)' , findoneof('$(vL.GetRootPath)' , '\/',vL._ttt)+1,len('$(vL.GetRootPath)')); //Relative Path in Container
+  endif
+  exit for when not '$(vL._ValidatedBasePath)'='';	
+	next
+endif
+
+// Setting the correct ContainerMap.csv path
+if FileSize('$(vL.CVSTableName)') > 0 then 
+	Let vL._ContainerMapPath='$(vL.CVSTableName)';
+else
+	Let vL._ContainerMapPath='$(vG.BaseVariablePath)\ContainerMap.csv';
+endif
+
+// Loading Container Map csv table as vL.temp_table_map
+unqualify ContainerPathName,ContainerPathNameCount ;
+vL.temp_table_map:
+REPLACE LOAD *
+FROM
+'$(vL._ContainerMapPath)'
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+// count(ContainerPathName) to find if more than one ContainerPathName is used
+REPLACE Left join
+Load ContainerPathName,count(ContainerPathName) as ContainerPathNameCount
+Resident vL.temp_table_map 
+group by ContainerPathName; 
+
+// loop through CSV table entries in search for LET and SET expresion
+let vL._xxx = NoOfRows('vL.temp_table_map');
+
+	for vL._ttt = 0 to vL._xxx-1
+	
+	LET vL.Comment =''; //reset comment entries 
+	
+	LET vL.ContainerPathName = PurgeChar(trim(peek(FieldName(1,'vL.temp_table_map'),$(vL._ttt),'vL.temp_table_map')),'=;,- '&chr(39)); // ContainerPathName variable field (Tag)
+	LET vL.ContainerFolderName = lower(PurgeChar(trim(peek(FieldName(2,'vL.temp_table_map'),$(vL._ttt),'vL.temp_table_map')),'=;,'&chr(39))); // ContainerFolderName field
+	LET vL.Comment = PurgeChar(trim(peek(FieldName(3,'vL.temp_table_map'),$(vL._ttt),'vL.temp_table_map')),';,'&chr(39)); // Comment Field 
+	LET vL.RootPath = lower(PurgeChar(trim(peek(FieldName(4,'vL.temp_table_map'),$(vL._ttt),'vL.temp_table_map')),'=;,'&chr(39))); // RootPath other than default
+	LET vL.ContainerPathNameCount = peek(FieldName(5,'vL.temp_table_map'),$(vL._ttt),'vL.temp_table_map');
+	
+	// Do not do anything if row is empty
+	if not '$(vL.ContainerPathName)' = '' and not '$(vL.ContainerFolderName)' = '' then
+	
+	// Correct \ if not exist 
+		if not right( '$(vL.ContainerFolderName)' , 1 ) ='\' then 
+			let vL.ContainerName ='$(vL.ContainerFolderName)'&'\';
+			else
+			let vL.ContainerName ='$(vL.ContainerFolderName)';
+		endif;
+
+		if left(trim('$(vL.RootPath)'),2) ='\\' or index('$(vL.RootPath)', ':')>0  then // If vL.AltRootPath have a valid path
+
+			if not right('$(vL.RootPath)' , 1 ) ='\' then // Check and add '\' in root path
+				let vL.RootPath ='$(vL.RootPath)'&'\';
+			endif;
+		else
+			let vL.RootPath ='$(vG.RootPath)'; 
+		endif;
+		
+	// Special Switch to find vG.RootPath used by 1.Init during initiation process
+	// Will also identify current container (vL.ContainerPathName)
+	if not '$(vL._ValidatedBasePath)'='' and substringcount(lower('$(vL._ValidatedBasePath)'),lower('$(vL.RootPath)$(vL.ContainerName)')) >0 then
+
+    //LET vL.RootPath= left('$(vG.BasePath)',len('$(vG.BasePath)')-(len('$(vL.ContainerName)')));
+	LET vL.RootPath= left('$(vL._ValidatedBasePath)',len('$(vL._ValidatedBasePath)')-(len('$(vL.ContainerName)')));
+  	$(Include=$(vG.SubPath)\1.FileExist.qvs);
+		call vL.FileExist ('$(vL.RootPath)$(vL.ContainerName)'); //validate that rootpath is correct
+      if vL.FileExist = 'true' then
+				LET vG.RootPath= '$(vL.RootPath)'; // Set new vG.RootPath
+				Trace '### DF Creating vG.RootPath based on Container Map';
+				SET vL.Exit='True'; // When root path is set exit script 
+			endif
+	elseif not '$(vL._ValidatedBasePath)'='' and lower('$(vL._ValidatedBasePath)')=lower('lib://$(vL.ContainerPathName)/') then //Current Container validation for Qlik Sense
+		SET vL.Exit='True'; // When root path is set exit script 
+	endif
+
+	
+	// Finding vL.SpecificVariable and return values from Container Map
+	if ('$(vL.SpecificVariable)'='$(vL.ContainerPathName)' or '$(vL.SpecificVariable)'='$(vL.ContainerFolderName)')  then
+		
+		
+	if vL.ContainerPathNameCount = 1 then // If only one container Path exists then exit 
+			SET vL.Exit= 'True'; // Exit For Loop
+				
+		else // Several container Path exists, send error message
+			Trace '### DF Warning! more than one $(vL.ContainerPathName) exists, please identify and fix.';
+				//Reset vL.LoadContainerMapCount variable used to identify if two or more identical Variable Prefix exist
+			SET vL.LoadContainerMapCount='$(vL.ContainerPathName)';
+			Sleep 5000; SET 5000=; // Remove variable 5000 created when running sleep!?
+			SET vL.Exit= 'True'; // Exit For Loop
+	endif
+		exit for when '$(vL.Exit)'='True';
+	endif;
+		exit for when '$(vL.Exit)'='True';	
+	endif;
+next;
+
+drop table 'vL.temp_table_map'; // Dropping CSV Table after variables been read into the QlikView application
+
+//Resetting variables
+SET vL._ttt = ;
+SET vL._xxx = ;
+SET vL.CVSTableName = ;
+SET vL.SpecificVariable = ;
+SET vL.GetRootPath = ;
+SET vL.Exit= ;
+SET vL.ContainerName= ;
+SET vL.ContainerPathNameCount= ;
+SET vL._ValidatedBasePath=;
+SET vL._ContainerMapPath=;
+end sub
+
+// **********************************
+// Application written by Magnus Berg
+// QlikView International AB
+// **********************************

@@ -1,0 +1,6 @@
+CategoryID	Category
+1	Opelux
+2	Tip Hold
+3	Una Core
+4	Overlux
+5	Quad-Fax

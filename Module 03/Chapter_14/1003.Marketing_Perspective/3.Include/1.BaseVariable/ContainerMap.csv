@@ -1,0 +1,13 @@
+﻿ContainerPathName,ContainerFolderName,ContainerComments,RootPath
+Admin,0.Administration,Default Administration Container,
+Shared,99.Shared_Folders,Container for Shared resources,
+Example,1.Example,Container for Example resources,
+Sales,1001.Sales_Perspective,Container for Sales Perspective,
+HR,1006.HR_Perspective,Container for HR Perspective,
+CustomerFact,1101.Customer_Fact_Sheet,Container for Customer Fact Sheet,
+BSC,1201.Balanced_Scorecard,Container for BSC,
+Operations,1005.Operations_Perspective,Container for Operations Perspective,
+Financial,1002.Financial_Perspective,Container for Financial Perspective,
+Marketing,1003.Marketing_Perspective,Container for Marketing,
+WorkingCapital,1004.WorkingCapital_Perspective,Container for Working Capital,
+,,,

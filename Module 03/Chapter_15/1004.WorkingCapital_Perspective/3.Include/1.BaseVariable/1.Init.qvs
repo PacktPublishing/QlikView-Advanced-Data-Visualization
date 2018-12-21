@@ -1,0 +1,248 @@
+﻿//  ____________________________________________________________
+// |      Deployment Framework BaseVariable 1.Init.qvs         |
+// |  This Include contains base folder search path            |
+// |  All path are based on vG.BasePath                        |
+// |  Change vLocal_RemovePath if BaseVariable path is changed |
+// |___________________________________________________________|
+// Writing information in QlikView application log
+trace '### DF 1.Init.qvs Started';
+
+// To link Shared_Folders directly into 1.init.qvs set vL.LinkShared_Folders = 'Shared' (link name)
+// Leave vL.LinkShared_Folders blank to skipp linking to shared folders
+SET vL.LinkShared_Folders = 'Shared';
+
+// To create Custom Global Variables from current container (vG.BaseVariablePath)
+// set vL.LoadCustomVG to variable csv file name, default 'Custom*.csv'
+// Remark or blank vL.LoadCustomVG to skipp loading Custom Global Variables
+set vL.LoadCustomVG='Custom*.csv';
+
+// To create Universal Variables from Shared Files container (vG.SharedBaseVariablePath)
+// set vL.LoadCustomVU to variable csv file name, default 'Custom*.csv'
+// Remark or blank vL.LoadCustomVU to skipp loading Universal Variables
+set vL.LoadCustomVU='Custom*.csv';
+
+// Global path Variables are automatically generate from vL.ContainerStructure list. 
+// The function is used by 1.Init and 4.GenericContainerLoader
+
+// Creating function vL.GettContainerStructure for vL.ContainerStructure table containing sub folders,
+// variable path to main folders based on this include file
+sub GetContainerStructure (vL.GetContainerStructure) ;
+	vL.ContainerStructure:
+	REPLACE LOAD * INLINE [
+		PhysicalFolderName, VariablePrefix, Comments
+		'1.Application','Application','QlikView Applications are resided in subfolders under 1.Applications'
+		'2.QVD','QVD','QlikView Data files are stored in subfolders under 2.QVD'
+		'3.Include','Include','Folder where QlikView Include files are stored. These are script parts that are called from the main QlikView script. '
+		'4.Mart', 'Mart','Resides QlikView Qvw marts (in subfolders) for data discovery usage, these folders could be shared.'
+		'5.Config','Config','Configuration and language files like Excel and txt. This folders could be shared to make configuration changes easier'
+		'6.Script','Script','Store for special scripts run by the publisher or scheduled tasks'
+		'7.Export','Export','Folder used to store from QlikView exported data, probably txt or qvx'
+		'8.Import','Import','Folder used to store import data from external systems'
+		'3.Include\1.BaseVariable','BaseVariable','Stores all the variables needed to use the framework, like paths inside the container'
+		'3.Include\2.Locale','Locale','Locale for different regions, used for easy migration between regions'
+		'3.Include\3.ConnString','ConnString','Stores connection strings to data sources'
+		'3.Include\4.Sub','Sub','Store for sub routines, this is a way to reuse code between applications '
+		'3.Include\5.ColorScheme','ColorScheme','Company standard Color Scheme would be placed here'
+		'3.Include\6.Custom','Custom','Store for custom include scripts'
+		'0.Template','Template','Used to identify Admin container and create extra variables used by Variable Editor'
+	]; 
+end sub;
+
+if not '$(vG.SkipInit)'= 'True' then // If vG.SkipInit switsh set to true Init will be skiped
+
+if not '$(vL.InitLinkIdentify)'= 'True' then // If InitLink identfyed BasePath no need to do that again
+
+// Cleanup, Removing old Path Value
+SET vG.TemplatePath =;
+LET vG.BasePath=;
+
+//***************** Special section for Qlik Sense **********************************
+// Qlik Sense additions Validating if LIB root exists if yes then add this as vG.RootPath
+if not IsNull(filesize('lib://$(vG.RootContainer)/*')) = -1 then	
+	LET vG.RootPath= 'lib://$(vG.RootContainer)/';
+	trace '### DF Info, identified Sense root path $(vG.RootPath) (single LIB mount)';
+	SET vG.RootContainer = ;
+elseif not IsNull(filesize('lib://Root/*')) = -1 then
+	LET vG.RootPath= 'lib://Root/';
+	trace '### DF Info, identified Sense root path $(vG.RootPath) (single LIB mount)';
+elseif not IsNull(filesize('lib://root/*')) = -1 then
+	LET vG.RootPath= 'lib://root/';
+	trace '### DF Info, identified Sense root path $(vG.RootPath) (single LIB mount)';
+else   
+	SET vG.RootPath=;
+endif
+
+// Qlik Sense additions, validating Home Container LIB path
+switch left('$(vG.RootPath)',6)
+case 'lib://'
+	if not IsNull(filesize('$(vG.RootPath)$(vG.HomeContainer)\Initlink.qvs')) = -1 then
+		LET vG.BasePath= '$(vG.RootPath)$(vG.HomeContainer)\';
+		trace '### DF Info, identified Sense home container  $(vG.BasePath)';
+	else
+		for each vL._DoDir in dirlist ('$(vG.RootPath)*$(vG.HomeContainer)*') //Search for a valid container under Root
+			if filesize('$(vL._DoDir)\Initlink.qvs') > 1 then
+				LET vG.BasePath= '$(vL._DoDir)\';
+				trace '### DF Info, identified Sense home container $(vG.BasePath)';
+			endif
+		exit for when not '$(vG.BasePath)'='';	
+		next vL._DoDir
+		if '$(vG.BasePath)'= '' then
+			trace '### DF Warning, could not identify a Sense home container';
+			trace '### DF Warning, before 1.Init.qvs add SET vG.HomeContainer=container physical path';
+			LET vG.BasePath=;
+		endif
+	endif
+
+default
+	if not IsNull(filesize('lib://$(vG.HomeContainer)/Initlink.qvs')) = -1 then	
+		LET vG.BasePath= 'lib://$(vG.HomeContainer)/';	
+		trace '### DF Info, identified Sense home container $(vG.BasePath) (Separate LIB mounts)';
+	elseif not IsNull(filesize('$(vG.HomeContainer)/Initlink.qvs')) = -1 then
+		LET vG.BasePath= '$(vG.HomeContainer)/';
+		trace '### DF Info, identified Sense home container $(vG.BasePath) (Separate LIB mounts)';
+	elseif not IsNull(filesize('lib://Home/Initlink.qvs')) = -1 then
+		LET vG.BasePath= 'lib://Home/';
+		trace '### DF Info, identified Sense home container $(vG.BasePath) (Separate LIB mounts)';	
+	elseif not IsNull(filesize('lib://home/Initlink.qvs')) = -1 then
+		LET vG.BasePath= 'lib://home/';
+		trace '### DF Info, identified Sense home container $(vG.BasePath) (Separate LIB mounts)';
+	else 
+		// This is the default QlikView mode 
+		LET vG.BasePath=;
+	endif
+end switch
+
+
+// Searching for base folder Path $(vG.BasePath) for the container
+// Do Not modify this section!!
+
+// Identify vG.BasePath based on InitLink.qvs located in each container base (New way identifying vG.BasePath)
+If '$(vG.BasePath)'= '' then // If vG.BasePath identified by Qlik Sense skip validation 
+	SET vL.Path_tmp = ;
+	for vL.x_loop =1 to 30-1				
+		LET vL.InitLinkPath_tmp='$(vL.InitLinkPath)';
+			if FileTime('$(vL.InitLinkPath)InitLink.qvs') > 0 then		
+				// Set vG.BasePath based on InitLink.qvs location
+				LET vG.BasePath=left(DocumentPath(),index(DocumentPath(),'\', -(substringcount(  '$(vL.InitLinkPath)','\' )+1)));
+			endif	
+		LET vL.InitLinkPath='..\'&'$(vL.InitLinkPath_tmp)';
+	exit for when not '$(vG.BasePath)'= ''
+	next
+	SET vL.InitLinkPath = ; 
+	SET vL.InitLinkPath_tmp = ;
+	SET vL.x_loop = ;
+endif
+
+endif // InitLink skip endif
+
+
+// Open vL.ContainerStructure include table
+Call GetContainerStructure (vL.GetContainerStructure) ;
+
+// If vG.BasePath identified by Qlik Sense skip validation
+// Identify vG.BasePath based on DocumentPath() (Old way identifying vG.BasePath used as backup)	
+if '$(vG.BasePath)' = '' then 
+FOR vL.VariableLoop = 1 to NoOfRows('vL.ContainerStructure');
+	let vL.PhysicalFolderName = fieldvalue('PhysicalFolderName',$(vL.VariableLoop));
+	
+if substringcount(lower(DocumentPath()),lower('$(vL.PhysicalFolderName)')) <> 0 then
+	LET vG.BasePath= left(lower(DocumentPath()),index(lower(DocumentPath()),lower('$(vL.PhysicalFolderName)'))-1);
+	LET vG.RootPath= left('$(vG.BasePath)',index('$(vG.BasePath)','\',-2));
+end if;
+exit for when '$(vG.BasePath)' <> '' ; // End loop if vG.BasePath is found
+Next vL.VariableLoop
+endif
+
+// Check if vG.BasePath variable exists, else exit the script
+If '$(vG.BasePath)'= '' then
+	trace '### DF Error could not find vG.BasePath, 1.Init script will exit ';
+	exit script ;
+endif
+
+// Loop that will create Container Global Variable Path
+FOR vL.VariableLoop = 1 to NoOfRows('vL.ContainerStructure');
+	let vL.PhysicalFolderName = fieldvalue('PhysicalFolderName',$(vL.VariableLoop));
+	let vL.VariablePrefix = fieldvalue('VariablePrefix',$(vL.VariableLoop));
+	// Checking if folder exists before creating variable
+	if FileTime('$(vG.BasePath)$(vL.PhysicalFolderName)') > 0 then
+		SET vG.$(vL.VariablePrefix)Path='$(vG.BasePath)$(vL.PhysicalFolderName)\';
+	else
+		// Reset Variable if folder not found
+		SET vG.$(vL.VariablePrefix)Path=;
+	endif
+Next vL.VariableLoop
+
+// Dropping vL.ContainerStructure table when the Base Global Variables are read into QlikView
+drop table vL.ContainerStructure ;
+
+
+// Identifying where RootPath is in the container structure
+// Getting LoadVariableCSV sub
+
+// Special check, Qlik Sense is using LIB's and do not need a root folder
+if '$(vG.RootPath)'='' and not lower(left(trim('$(vG.BasePath)'),6))='lib://' then
+	$(Include=$(vG.SubPath)\3.LoadContainerMap.qvs);
+	call LoadContainerMap('$(vG.BaseVariablePath)\ContainerMap.csv','','$(vG.BasePath)');
+endif
+
+// Load Include for LoadContainerGlobalVariables function
+// This function is to be used inside the QlikView scripts to load connections to containers 
+// (allowed and active) from your base container. This by using the Generic Container Loader.
+
+// Shared_Folders Initiation
+if not trim('$(vL.LinkShared_Folders)') = '' then
+	$(Include=$(vG.SubPath)\4.GenericContainerLoader.qvs);
+	CALL LoadContainerGlobalVariables('$(vL.LinkShared_Folders)');
+endif;
+
+// Initiation of Universal Variables (if used)
+if not trim('$(vL.LoadCustomVU)') = '' and filesize('$(vG.SharedBaseVariablePath)\$(vL.LoadCustomVU)') >0 then
+$(Include=$(vG.SubPath)\2.LoadVariableCSV.qvs);
+	// Loading Container Global Variables from Shared Container CustomVariable file
+	call LoadVariableCSV('$(vG.SharedBaseVariablePath)\$(vL.LoadCustomVU)');
+elseif upper(left( trim('$(vG.BaseVariablePath)') , 6 ))='LIB://' then // Workaround for issue in Qlik Sense when shared folder lib is missing
+	let vG.SharedBaseVariablePath='$(vG.BaseVariablePath)';
+endif
+
+// Initiation of Custom Variables (if used)
+if not trim('$(vL.LoadCustomVG)') = '' and filesize('$(vG.BaseVariablePath)\$(vL.LoadCustomVG)') >0 then
+$(Include=$(vG.SubPath)\2.LoadVariableCSV.qvs);
+	// Loading from Base Container CustomVariable file
+	call LoadVariableCSV('$(vG.BaseVariablePath)\$(vL.LoadCustomVG)');
+endif;
+
+else //Skip Init
+trace '### DF 1.Init.qvs Skip by using vG.SkipInit = True';
+endif 
+
+// Initiation of 4.Custom 
+$(Include=$(vG.SharedBaseVariablePath)\4.Custom.qvs); // Loading 4.Custom from Shared
+$(Include=$(vG.BaseVariablePath)\4.Custom.qvs); // Loading 4.Custom from current container
+
+// Load all include Framework functions
+$(Include=$(vG.SubPath)\99.LoadAll.qvs);
+
+
+// Cleanup
+// Remove local variables
+SET vL.PhysicalFolderName=;
+SET vL.VariablePrefix=;
+SET vL.VariableLoop=;
+SET vL.FileExist=;
+SET vL.InitLinkPath=;
+SET vL.LinkShared_Folders=;
+set vL.VariableLoop=;
+set vL.GetContainerStructure=;
+set vL.LoadCustomVG=;
+set vL.LoadCustomVU=;
+set vL.Administraton=;
+set vL.TemplateName=;
+set vL.ContainerName=;
+set vL.Root=;
+set vG.SkipInit=;
+set vL.InitLinkIdentify=;
+set vL.RelativePath = ;
+
+// Writing information in log
+trace '### DF 1.Init.qvs Finished';
+

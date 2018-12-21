@@ -1,0 +1,26 @@
+/* ___________________________________________________________________________
+  |   Deployment Framework QVDLoad  sub function 10.QVDLoad.qvs 
+  |
+  | Loads up a data model based on QVD files in Source destination and the qvd Meta-data table name
+  | QVDLoad is based on QVDMigration sub function only difference is that destination path is missing 
+  | First include the QVDLoad Function $(Include=$(vG.SubPath)\10.QVDLoad.qvs);
+  | Use the function QVDLoad to execute. examples:
+  | call QVDMigration (vL.MigrationSource,vL.MigrationDestination, vL.Store_Select_tmp); //Simple Example
+  | call QVDMigration ('$(vG.QVDPath)\Customer.qvd','$(vG.SharedQVDPath)\Customer.qvd', 'CustomerID,CompanyName');
+*/
+
+ 
+
+sub QVDLoad(vL.MigrationSource,vL.Store_Select_tmp,vL.Scramble_fields,vL.Tmp_QVTableName_Suffix,vL._IncludeSubFolders)
+$(Include=$(vG.SubPath)\9.QVDMigration.qvs);
+call QVDMigration ('$(vL.MigrationSource)','','$(vL.Store_Select_tmp)','$(vL.Scramble_fields)','$(vL.Tmp_QVTableName_Suffix)','$(vL._IncludeSubFolders)');
+
+SET vL.Tmp_QVTableName_Suffix=;
+SET vL.Tmp_QVTableName=;
+SET vL.MigrationSource=;
+SET vL.Store_Select_tmp=; 
+SET vL.Scramble_fields=;
+SET vL.NoOfRows_Loop_tmp=;
+SET vL._IncludeSubFolders=;
+
+end sub

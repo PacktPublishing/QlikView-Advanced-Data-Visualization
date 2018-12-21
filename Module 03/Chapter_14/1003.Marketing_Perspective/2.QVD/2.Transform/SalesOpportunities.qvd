@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>50500</QvBuildNo>
+   <CreatorDoc>C:\Qlik\SourceData\1003.Marketing_Perspective\2.QVD\2.Transform\CRM_Transform.qvw</CreatorDoc>
+   <CreateUtcTime>2016-04-10 18:02:01</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>SalesOpportunities</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Stage ID</FieldName>
+       <BitOffset>76</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>30</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Document ID</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>68</NoOfSymbols>
+       <Offset>30</Offset>
+       <Length>340</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_Customer</FieldName>
+       <BitOffset>64</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>INTEGER</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>0</Fmt>
+         <Dec>.</Dec>
+         <Thou>,</Thou>
+       </NumberFormat>
+       <NoOfSymbols>10</NoOfSymbols>
+       <Offset>370</Offset>
+       <Length>50</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_ActualFlag</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>420</Offset>
+       <Length>7</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_BudgetFlag</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>427</Offset>
+       <Length>7</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Predicted Close Date</FieldName>
+       <BitOffset>18</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>65</NoOfSymbols>
+       <Offset>434</Offset>
+       <Length>325</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Potential Gross Profit %</FieldName>
+       <BitOffset>72</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>11</NoOfSymbols>
+       <Offset>759</Offset>
+       <Length>91</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Status</FieldName>
+       <BitOffset>91</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>3</NoOfSymbols>
+       <Offset>850</Offset>
+       <Length>17</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Line ID</FieldName>
+       <BitOffset>79</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>867</Offset>
+       <Length>25</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_SalesPersonID</FieldName>
+       <BitOffset>82</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>5</NoOfSymbols>
+       <Offset>892</Offset>
+       <Length>25</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_Date</FieldName>
+       <BitOffset>25</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>128</NoOfSymbols>
+       <Offset>917</Offset>
+       <Length>640</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_Date_From</FieldName>
+       <BitOffset>32</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>128</NoOfSymbols>
+       <Offset>1557</Offset>
+       <Length>640</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_Date_To_Tmp</FieldName>
+       <BitOffset>50</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>124</NoOfSymbols>
+       <Offset>2197</Offset>
+       <Length>620</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Close %</FieldName>
+       <BitOffset>85</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>7</NoOfSymbols>
+       <Offset>2817</Offset>
+       <Length>35</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Potential Sales LC</FieldName>
+       <BitOffset>7</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>27</NoOfSymbols>
+       <Offset>2852</Offset>
+       <Length>139</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Potential Sales USD</FieldName>
+       <BitOffset>39</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>27</NoOfSymbols>
+       <Offset>2991</Offset>
+       <Length>243</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_DocumentType</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>3234</Offset>
+       <Length>21</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>DocId</FieldName>
+       <BitOffset>93</BitOffset>
+       <BitWidth>2</BitWidth>
+       <Bias>-2</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>3255</Offset>
+       <Length>5</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Stage Status</FieldName>
+       <BitOffset>95</BitOffset>
+       <BitWidth>1</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>2</NoOfSymbols>
+       <Offset>3260</Offset>
+       <Length>6</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Weighted Potential Sales LC</FieldName>
+       <BitOffset>12</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>58</NoOfSymbols>
+       <Offset>3266</Offset>
+       <Length>322</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Weighted Potential Sales USD</FieldName>
+       <BitOffset>44</BitOffset>
+       <BitWidth>6</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>58</NoOfSymbols>
+       <Offset>3588</Offset>
+       <Length>518</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Sales Opportunity Stage</FieldName>
+       <BitOffset>88</BitOffset>
+       <BitWidth>3</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>6</NoOfSymbols>
+       <Offset>4106</Offset>
+       <Length>68</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>_KEY_Date_To</FieldName>
+       <BitOffset>57</BitOffset>
+       <BitWidth>7</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>DATE</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt>M/D/YYYY</Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>109</NoOfSymbols>
+       <Offset>4174</Offset>
+       <Length>768</Length>
+       <Comment></Comment>
+       <Tags></Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>12</RecordByteSize>
+   <NoOfRecords>181</NoOfRecords>
+   <Offset>4942</Offset>
+   <Length>2172</Length>
+   <Lineage></Lineage>
+   <Comment></Comment>
+ </QvdTableHeader>
+                                           	   
+                                                                      !   "   #   $   %   &   '   (   )   *   +   ,   -   .   /   0   1   2   3   4   5   6   7   8   9   :   ;   <   =   >   ?   @   A   B   C   D            
+                        1     0 zó  ¢ó  ló  Ló  ^ó  ]ó  Wó  ó  \ó  uó  pó  `ó  kó  tó  ãó  Pó  có  Nó  ùó  ªó  [ó  Áò  ô  Ÿò  πò  Àò   ò  ƒò  Ïò  …ò  ‚ò  ›ò  Õò  ô  3ô  Sô  ëô  ±ô  –ô  ô  ö  ,ö  Kö  hö  áö  •ö  ƒö  ‚ö  õ   õ  >õ  ]õ  {õ  öõ  πõ  ’õ  Ùõ  ú  1ú  Oú  nú  çú  ´ú   ú  Ëú  líÒhV@VÇ≈·ÃæR@<   –fﬁ˝X@'jinÖ]S@±˜‚ãˆ…S@ø|≤b∏˛X@
+H˚`NT@}Y⁄©πöT@(   ≤b∏:  N@Open Won Lost                             ˇˇˇˇ‡ü  ⁄ü  Õü  Ëü  “ü  Œü  €ü  ÷ü  ”ü  œü  ’ü  ‘ü  ◊ü  ›ü  ÿü  Ïü  —ü  Îü  –ü  N°  H°  ;°  V°  @°  <°  I°  D°  A°  =°  C°  B°  E°  K°  F°  Z°  ?°  û°  ù°  ò°  ï°  Ω°  º°  ∑°  ¥°  ›°  ‹°  ◊°  ‘°  ¢  ¢  ¢  ¢  5¢  2¢  T¢  Q¢  z¢  y¢  t¢  q¢  ô¢  ò¢  ì¢  ê¢  ∞¢  ≠¢  œ¢  Ã¢  Î¢  Ë¢  
+£  £  (£  %£  G£  D£  k£  j£  e£  b£  ä£  â£  Ñ£  Å£  ©£  ®£  ££  †£  «£  ∆£  ¡£  æ£  Ê£  Â£  ‡£  ›£  §  §  ˛£  ˚£  #§  "§  §  §  <§  9§  X§  U§  w§  t§  ï§  í§  ∫§  π§  ¥§  ±§  “§  œ§  Ò§  Ó§  •  •  .•  +•  M•  J•  k•  h•  ‡ü  ⁄ü  Õü  Ëü  “ü  Œü  €ü  ÷ü  ”ü  œü  ’ü  ‘ü  ◊ü  ›ü  ÿü  Ïü  —ü  Îü  –ü  N°  H°  ;°  V°  @°  <°  I°  D°  A°  =°  C°  B°  E°  K°  F°  Z°  ?°  û°  ù°  ò°  ï°  Ω°  º°  ∑°  ¥°  ›°  ‹°  ◊°  ‘°  ¢  ¢  ¢  ¢  5¢  2¢  T¢  Q¢  z¢  y¢  t¢  q¢  ô¢  ò¢  ì¢  ê¢  ∞¢  ≠¢  œ¢  Ã¢  Î¢  Ë¢  
+£  £  (£  %£  G£  D£  k£  j£  e£  b£  ä£  â£  Ñ£  Å£  ©£  ®£  ££  †£  «£  ∆£  ¡£  æ£  Ê£  Â£  ‡£  ›£  §  §  ˛£  ˚£  #§  "§  §  §  <§  9§  X§  U§  w§  t§  ï§  í§  ∫§  π§  ¥§  ±§  “§  œ§  Ò§  Ó§  •  •  .•  +•  M•  J•  k•  h•  ‡ü  ⁄ü  “ü  Ëü  €ü  ÷ü  ”ü  ’ü  ‘ü  ◊ü  ›ü  ÿü  ıü  Îü  ü  ‚ü  Úü  —ü  N°  H°  @°  V°  I°  D°  A°  C°  B°  E°  K°  F°  c°  Y°  ü°  ù°  ò°  ï°  æ°  º°  ∑°  ¥°  ﬁ°  ‹°  ◊°  ‘°  ¢  ¢  ¢  ¢  5¢  2¢  T¢  Q¢  {¢  y¢  t¢  q¢  ö¢  ò¢  ì¢  ê¢  ∞¢  ≠¢  œ¢  Ã¢  Î¢  Ë¢  
+£  £  (£  %£  G£  D£  l£  j£  e£  b£  ã£  â£  Ñ£  Å£  ™£  ®£  ££  †£  »£  ∆£  ¡£  æ£  Á£  Â£  ‡£  ›£  §  §  ˛£  ˚£  $§  "§  §  §  <§  9§  X§  U§  w§  t§  ï§  í§  ª§  π§  ¥§  ±§  “§  œ§  Ò§  Ó§  •  •  .•  +•  M•  J•  k•  h•  <         _   2   P      Mq  0u  %N  ®a  P√  ù:   N  '  `Í  '  ∏à  †Ü •å  »Ø  @ú  X  à  ≠a  ¯$ Ö>  «  ò:  p ∞≠ HÓ      »|ˆ@8[ K<†l≤*°@ál ]t¡°@‚ÁøÆó@<0Ä¡óù@<0Ä¡ó≠@?ˇ=¯¬ë@jáø&õ¨ó@H£'õ¨á@è•]t¡±@|,}Ë¢Øá@¿ ¬∑§@<0Ä¡óΩ@µ√_ìMO•@”€üã.¢™@jáø&õ¨ß@®˛ölíÄ@H£'õ¨w@¥êÄ—Eôù@-$`t—1∂@     Úí@¿<A@òﬁ˛\t¡ë@¯˘Ô¡∑¥@◊ﬁß™™F¿@À’èM6≤@    »|ˆ@ |M∫@Sales Opportunities ¯   O C ˚C  p        0è“@„.  ‹  '  ∏  +#  †  ∞  –  X  †å  0u  ‡.        `ê¬@s  X  4  Ä8 P√      ò≥‡@(#  å
+  à  PF  ®a   }  R  ò:  Ó  x  ,  §      ∞2◊@î      `≤Õ@ÕÃÃÃÃL;@L  Ñ  `Í   N  @  `	  ¿]  ‘0  §  ∏à  ∞6  h  U  »  ®/  L  ÕÃÃÃl˝—@·zÆG’¥@ZH¿Ë¢ôî@	ß/∫h|@øÙˆÁ¢a@x` ·ñ@h!£ãjå@É0∫h\@H£'õ¨á@è7˘-∫hl@Ñ”Ç]PÖ@àüˇ|r@°Öå.∫V@ |b@π«“á.∫F@yìﬂ¢ãN•@ál ]t¡°@Lo.∫hå@9dÈ¢q@òﬁ˛\tÄÜ@«õ¸]l|@®˛ölíÄ@0Ω˝πË‚c@bN–&õ¨∑@<0Ä¡ó≠@=c_≤â>§@h!£ãNÖ@N^tëi@H£'õ¨w@h!£ãNï@<0Ä¡óù@àüˇ|¢@ZH¿Ë¢€ò@òﬁ˛\t¡ë@É0∫hL@@¸¸˜‡ÉZ@âC6ê.∫6@-$`t—?@Ÿ@∫hú@h!£ãNu@    Äˇë@0h!£ã @òﬁ˛\t¡Å@øÙˆÁ¢Q@è•]t¡±@jáø&õ¨ó@àüˇ|Ç@°Öå.∫f@Lo.∫hú@<0Ä¡óç@ZH¿Ë¢€®@¿ ¬∑§@Ü9Aõlíê@0Ω˝πË‚s@J	¡™™
+ö@Ù   ~˛{·å@«õ¸]Tq@ÕÃÃÃl˝—@ÏjÚî@y@Cotizacion 1ra Reunion Pospecto Orden 2da Reunion Negociacion  ﬂü  Ÿü  Ëü  1/28/2012 Áü  —ü  ⁄ü  ’ü  “ü  €ü  1/15/2012 ‘ü  ”ü  ◊ü  1/11/2012 ÷ü  ›ü  1/17/2012 ‹ü  Îü  Íü  ÿü  1/12/2012 M°  G°  V°  1/28/2013 U°  ?°  H°  C°  @°  I°  1/15/2013 B°  A°  E°  1/11/2013 D°  K°  1/17/2013 J°  Y°  ù°  ú°  ó°  æ°  5/12/2013 º°  ª°  ∂°  ‹°  €°  ÷°  ¢  ¢  ¢  5¢  9/8/2013 4¢  T¢  10/9/2013 S¢  {¢  11/17/2013 y¢  x¢  s¢  ö¢  12/18/2013 ò¢  ó¢  í¢  ∞¢  1/9/2014 Ø¢  Œ¢  Í¢  	£  '£  F£  l£  7/16/2014 j£  i£  d£  â£  à£  É£  ®£  ß£  ¢£  ∆£  ≈£  ¿£  Â£  ‰£  ﬂ£  §  12/16/2014 §  §  ˝£  "§  !§  §  <§  2/9/2015 ;§  X§  3/9/2015 W§  w§  4/9/2015 v§  ï§  5/9/2015 î§  ª§  6/16/2015 π§  ∏§  ≥§  “§  7/9/2015 —§  §  •  -•  L•  j•              Ä Å ê ÅÄ  Ç   AÇ111dãAAÅàÅQÇQ
+!Eäbb í(r
+r
+"IÇÉÇÜÇ É ccCÄÑììì Å£
+£#AÇÑ≥Ñ≥í(ëÑ√â√
+"Ií‘‘Çê‰
+‰BåîÙÙ í,ë
+	"MíÜå%¥mãÜ$å$%à55!î,âEE	$MäáUåU%R¨ïáeãe!¬åîáÑ"Mív!v)5dãàÜ!éÜ-ï$âàñ!Ññ	%Eä	‘$‘0 Ç 	‰$‰4 BÑÑ	Ù$Ùí$Å	%	"EÇä°)Ñ°	 -ã∞- ê∞	  ¬1"¬9 BÄb0b<"í År0r"AÇç√4 ê√ "M◊9◊) R¢Â9ÂÇÄé9á%BÄÑé°9à°í ÅéQ8âQ"AÇè√<$í√  "AêBàB ¢ƒêQ@$íQ"EÇë>à í,(>$(
+"MÇí7F
+Ö7
+ "MìHJéH.$∂hãYJY
+&Iä¬M¬	 BëïÉàñiR êiF
+7mãzz(Aä T& H     òT(îL& ê Åò T*ï P(  AÇ1X,1T*1dãAX.AP,ÅàôQX*ïQP.!Eäb\.bP í(r\0rP."IÇõÇ`2ôÇX É c`4c\0CÄÑì`6ì`2ì Å£`0£P4#AÇú≥d.ó≥T*í(ëú√d8ú√P."Ií‘h2‘X6Çê‰h:‰d0BåîÙh<Ùh8í,ëi0Q:"Míûm>üm<¥mãû$m>ü$m<à5m<5i>î,âEm*EQ:$MäüUq>üUm<	R¨ïüeq<ûei>	¬åîüp.óP:	"Mí vu@ vq@5dã†ÜuB°ÜuBï$â†ñu.óñQ<%Eä!‘xD"‘x Ç !‰x2‰|DBÑÑ!Ùx6ÙL0í$Å!y.Q4"EÇ¢°}.ó°Q -£∞ÅF£∞Q  §∞ÖH§∞Å  â §ÖJ•ÖF IÄÑ§ÑL¶àH ô Å§ ÑNß åJ )AÇ%ÛàP(ÛêLâà%càR)cîNIÄå%ìàT*ìòPô â%£àV+£úR)Aä&‚åX,‚† â &¬çZ-¬•TIÄÑ&bå\.b®Vô Å&rå^/r¨X)AÇßäë`∞ä± â ßäíb±ä∂ZIÑÑßzêd≤z∏\ô$Åßöíf≥öæ^)EÇ®≥îh¥≥¿` ô$ë®√îjµ√ƒb )Eí)Ùòl6Ù»dô$ë)ôn7Õf)Eí™•ûp∏•“hâ	à™eùrπe’jIàå™µût∫µ⁄lô(â™úvª‹n)Iä´•¢xº•‚pâ	ê´e°zΩeÂrIàî´µ¢|æµÍtô(ë´†~øÏv)Ií,«¶Ä@«Úxô â,◊¶ÇA◊ˆz)Aä-Ù®ÑBÙ¯ 	ô -©ÜC˝|	)AÇÆ°≠àƒ°ô ÆQ¨ä≈Q)AÇØ∞å∆ô Ø ∞é« Å)AÇ0b¥êHbô(0r¥íIrÉ)IÇ±≥∏î ≥ô(±√∏ñÀ√Ö)IÇ2ÁæòLÁ"áâà2∑æöM∑&âIåå2«æúN«*ãô,â2◊æûO◊.ç)Mä≥¿†–0 â ≥£¡¢—£5è IåÑ≥≥¿§“≥8ë ô,Å≥√¿¶”√<ì )MÇ¥Ò≈®‘ÒAâ ¥Ò∆™’ÒFïIåÑ¥°≈¨÷°Ióô,Å¥QƒÆ◊QLô)MÇ5À∞XSâ 5À≤YWõIåÑ5+À¥Z+[ùô,Å5;À∂[;_ü)MÇ6œ∏\câ 6œ∫]g°IåÑ6+œº^+k£ô,Å6;œæ_;o•)MÇ7‚–¿`‚pßâà7¬—¬a¬u©Iåå7b–ƒbbx´ô,â7r–∆cr|≠)Mä8‚‘»d‚Äâ 8¬’ e¬ÖØIåÑ8b‘Ãfbà±ô,Å8r‘Œgrå≥)MÇπK€–ËKìµô,âπ[€“È[ó∑)Mä:lﬂ‘jlõπô,â:|ﬂ÷k|üª)MäªÜ·ÿÏÜ°Ωô,ëªñ·⁄Ìñ•ø)Míº≥‰‹Ó≥®¡	ô,âº√‰ﬁÔ√¨√	)Mä=ÁÍ‡pÁ≤≈âà=∑Í‚q∑∂«IÑå=«Í‰r«∫…ô$â=◊ÍÊs◊æÀ)Eäæ≥ÏËÙ≥¿Õô$ëæ√ÏÍı√ƒœ)Eíø°ÒÏˆ°… ô$øQÓ˜QÃ— )EÇ@+˜x+”ô$@;˜Úy;◊”)EÇAb¯Ùzbÿô$Ar¯ˆ{r‹’)EÇBb¸¯|b‡ô$Br¸˙}r‰◊)EÇ√å˝˛åÎ	ö$ACùˇùÔŸ	*EÇ

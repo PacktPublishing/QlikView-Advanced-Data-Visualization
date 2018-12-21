@@ -1,0 +1,68 @@
+
+Sales:
+LOAD 
+	AutoNumber(Floor(Date) & '-' & Store & '-' & Product, 'SB_Link') As SB_Link,
+	* 
+INLINE [
+    Date, Store, Product, Till, Operator, Time, Sales Quantity, Sales Value
+    2014-01-01, 1, 1, 1, 1, 09:00:00, 1, 12.12
+    2014-01-01, 1, 2, 1, 1, 09:01:30, 2, 3.33
+    2014-01-01, 2, 1, 3, 5, 10:11:01, 4, 17.88
+    2014-01-01, 2, 2, 5, 5, 12:02:22, 1, 1.70
+];
+
+
+Budget:
+LOAD 
+	AutoNumber(Floor(Date) & '-' & Store & '-' & Product, 'SB_Link') As SB_Link,
+	* 
+INLINE [
+    Date, Store, Product, Budget Value
+    2014-01-01, 1, 1, 20.00
+    2014-01-01, 1, 2, 3.00
+    2014-01-01, 2, 1, 20.00
+    2014-01-01, 2, 2, 3.00
+];
+
+Link_Table:
+Load Distinct
+	SB_Link,
+	Date,
+	Store,
+	Product
+Resident
+	Sales;
+
+Join (Link_Table)
+Load Distinct
+	SB_Link,
+	Date,
+	Store,
+	Product
+Resident
+	Budget;
+
+Drop Fields Date, Store, Product From Sales;
+Drop Fields Date, Store, Product From Budget;
+
+Store_Stock:
+Load
+	AutoNumber(Store & '-' & Product, 'SS_Link') As SS_Link, 
+	* 
+Inline [
+Store, Product, Stock Level
+1, 1, 12.00
+1, 2, 2.00
+2, 1, 6.00
+2, 2, 2.00
+];
+
+Join (Link_Table)
+Load
+	SS_Link,
+	Store,
+	Product
+Resident
+	Store_Stock;
+
+Drop Fields Store, Product from Store_Stock;

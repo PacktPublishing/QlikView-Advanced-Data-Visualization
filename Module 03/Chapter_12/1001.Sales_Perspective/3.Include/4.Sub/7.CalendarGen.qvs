@@ -1,0 +1,154 @@
+SUB CalendarGen(vL.DateFieldLinkName,vL.CalendarTableName,vL.MonthsLeftFiscalDates,vL.CalendarGenMinDate,vL.CalendarGenMaxDate,vL.FindFieldTableName);
+
+/*
+	Calendar Generation Script
+	v1.0, 16-Sep-2008, Author: Jonas Valleskog
+	v2.0, 07-Dec-2012, Author: Jonas Valleskog
+	v3.0  23-Jan-2013, Authors: Finn Nordensjö, Magnus Berg
+	v3.1  05-Mar-2014, Author: Magnus Berg (minor fixes and added additional flags)
+	Notes: Generic calendar generation script that enables scalable handling of creating and navigating multiple date fields
+*/
+if '$(vL.CalendarTableName)' ='' then
+	Let vL.CalendarTableName = '$(vL.DateFieldLinkName)';
+endif
+
+
+// Autoidentify Table Name
+if '$(vL.FindFieldTableName)' = '' then
+For vL.TableNoIdentified = 0 to NoOfTables() -1
+    Let vL.TableNameIdentified = TableName($(vL.TableNoIdentified)); 
+    For vL.FieldNoIdentified = 1 to NoOfFields('$(vL.TableNameIdentified)')    
+       If vL.DateFieldLinkName = FieldName($(vL.FieldNoIdentified),'$(vL.TableNameIdentified)') Then
+           Set vL.FindFieldTableName = '$(vL.TableNameIdentified)';
+       END IF  
+	exit for when not '$(vL.FindFieldTableName)' = ''; 
+    Next
+exit for when not '$(vL.FindFieldTableName)' = ''; 
+Next 
+endif
+
+// Cleanup
+SET vL.TableNameIdentified = ;
+SET vL.TableNoIdentified = ;
+SET vL.FieldNoIdentified = ;
+
+// If calendar link table not found, Skip function
+if not '$(vL.FindFieldTableName)' = '' then  
+
+tmp_Calendars:
+LOAD
+	'$(vL.CalendarTableName)' AS tmp_Calendar
+AUTOGENERATE(1);
+
+// if Min and Max set manual
+if not '$(vL.CalendarGenMinDate)' = '' and not '$(vL.CalendarGenMaxDate)' = ''  then
+LET vL.CalendarGenMinDate = Num(Date#('$(vL.CalendarGenMinDate)','$(DateFormat)')) ;
+LET vL.CalendarGenMaxDate = Num(Date#('$(vL.CalendarGenMaxDate)','$(DateFormat)')) ;
+endif
+
+// if Min and Max set automatic or not working in manual
+if '$(vL.CalendarGenMinDate)' = '' or '$(vL.CalendarGenMaxDate)' = ''  then
+
+CalendarGenMinMax:
+  Load 
+                num(min(_DateMinMaxKey)) AS CalendarGenMinDate, //gets min date out of key date in the fact table
+                num(max(_DateMinMaxKey)) AS CalendarGenMaxDate; //gets max date ou tof key date in the fact table
+  Load FieldValue('$(vL.DateFieldLinkName)',IterNo()) as _DateMinMaxKey
+  AutoGenerate(1)
+  while not IsNull(FieldValue('$(vL.DateFieldLinkName)',IterNo()));
+
+
+LET vL.CalendarGenMinDate = Num(Date#(Date(Peek('CalendarGenMinDate',0,'CalendarGenMinMax')),'$(DateFormat)'));
+LET vL.CalendarGenMaxDate = Num(Date#(Date(Peek('CalendarGenMaxDate',-1,'CalendarGenMinMax')),'$(DateFormat)'));
+DROP TABLE CalendarGenMinMax;
+endif
+
+//LET vL.CalendarGenToday = Today();
+LET vL.CalendarGenToday = Num(Today());
+
+// Quarter map generation
+CalendargenQuarterMap:
+MAPPING LOAD * INLINE [
+    Month, Quarter
+    1, Q1
+    2, Q1
+    3, Q1
+    4, Q2
+    5, Q2
+    6, Q2
+    7, Q3
+    8, Q3
+    9, Q3
+    10, Q4
+    11, Q4
+    12, Q4
+];
+
+
+// Calendar Generation
+
+[$(vL.CalendarTableName)]:
+LOAD *,
+	autoNumber([$(vL.DateFieldLinkName)],'$(vL.CalendarTableName)') AS [num$(vL.DateFieldLinkName)],
+	autoNumber([$(vL.CalendarTableName) MonthYear],'$(vL.CalendarTableName)MonthYear') AS [$(vL.CalendarTableName) numMonthYear],
+	autoNumber([$(vL.CalendarTableName) QuarterYear],'$(vL.CalendarTableName)QuarterYear') AS [$(vL.CalendarTableName) numQuarterYear],
+	autoNumber([$(vL.CalendarTableName) WeekYear],'$(vL.CalendarTableName)WeekYear') AS [$(vL.CalendarTableName) numWeekYear];
+LOAD
+	[$(vL.DateFieldLinkName)],
+	Week([$(vL.DateFieldLinkName)]) AS [$(vL.CalendarTableName) Week],
+	Year([$(vL.DateFieldLinkName)]) AS [$(vL.CalendarTableName) Year],
+	Month([$(vL.DateFieldLinkName)]) AS [$(vL.CalendarTableName) Month],
+
+	Day([$(vL.DateFieldLinkName)]) AS [$(vL.CalendarTableName) Day],
+	WeekDay([$(vL.DateFieldLinkName)]) AS [$(vL.CalendarTableName) WeekDay],
+	applyMap('CalendargenQuarterMap', num(month([$(vL.DateFieldLinkName)])),null()) AS [$(vL.CalendarTableName) Quarter],
+	Date(monthStart([$(vL.DateFieldLinkName)]), 'MM-YYYY') AS [$(vL.CalendarTableName) MonthYear],
+	dual(applyMap('CalendargenQuarterMap', num(month([$(vL.DateFieldLinkName)])),null())
+		& '-' & Year([$(vL.DateFieldLinkName)]),QuarterStart([$(vL.DateFieldLinkName)])) AS [$(vL.CalendarTableName) QuarterYear],
+	dual(Week([$(vL.DateFieldLinkName)]) & '-' & Year([$(vL.DateFieldLinkName)]),WeekStart([$(vL.DateFieldLinkName)])) AS [$(vL.CalendarTableName) WeekYear],
+	if(Year2Date([$(vL.DateFieldLinkName)], 0, 1, $(vL.CalendarGenToday)),1) AS [$(vL.CalendarTableName) YTD Flag],
+	if(Year2Date([$(vL.DateFieldLinkName)], -1, 1, $(vL.CalendarGenToday)),1) AS [$(vL.CalendarTableName) PYTD Flag],
+	// If(DayNumberOfQuarter($(vL.DateFieldLinkName)) <= DayNumberOfQuarter($(vL.CalendarGenToday)), 1, 0) as [$(vL.CalendarTableName) QTD Flag],
+	// If(Day([$(vL.DateFieldLinkName)]) <= Day(Today()), 1, 0) as [$(vL.CalendarTableName) MTD Flag],
+	If(Month([$(vL.DateFieldLinkName)]) = Month($(vL.CalendarGenToday)), 1, 0) as [$(vL.CalendarTableName) CurrentMonth Flag],
+	If(Month(AddMonths([$(vL.DateFieldLinkName)],1)) = Month($(vL.CalendarGenToday)), 1, 0) as [$(vL.CalendarTableName) LastMonth Flag];
+LOAD
+	Date($(vL.CalendarGenMinDate) + RecNo() - 1) AS [$(vL.DateFieldLinkName)]
+AUTOGENERATE ($(vL.CalendarGenMaxDate) - $(vL.CalendarGenMinDate)+1);
+
+if not '$(vL.MonthsLeftFiscalDates)' = '' then
+
+Left Join ([$(vL.CalendarTableName)])
+Load [$(vL.DateFieldLinkName)],
+// Fiscal Dates
+	Year(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates))) AS [$(vL.CalendarTableName) Fiscal Year],
+	Dual(Month([$(vL.DateFieldLinkName)]), Num(Month(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates))))) AS [$(vL.CalendarTableName) Fiscal Month],
+	'Q' & Ceil(Num(Month(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates)))) / 3) AS [$(vL.CalendarTableName) Fiscal Quarter],
+	Date(MonthStart(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates))),'MM-YYYY') AS [$(vL.CalendarTableName) Fiscal MonthYear], 
+	dual('Q' & Ceil(Num(Month(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates)))) / 3) & '-' & Year(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates))),
+	QuarterStart(AddMonths([$(vL.DateFieldLinkName)],$(vL.MonthsLeftFiscalDates)))) AS [$(vL.CalendarTableName) Fiscal QuarterYear],
+  if(YearToDate([$(vL.DateFieldLinkName)], 0, $(vL.MonthsLeftFiscalDates), $(vL.CalendarGenToday)),1,0) AS [$(vL.CalendarTableName) Fiscal YTD Flag],
+  if(YearToDate([$(vL.DateFieldLinkName)], -1, $(vL.MonthsLeftFiscalDates), $(vL.CalendarGenToday)),1,0) AS [$(vL.CalendarTableName) Fiscal PYTD Flag]
+	// End Fiscal Dates
+Resident [$(vL.CalendarTableName)];
+
+endif
+
+drop field tmp_Calendar;
+
+else
+trace '### DF Error Did not find a table containing $(vL.CalendarTableName), ending CalendarGen';
+End if
+
+// Cleanup
+Set vL.FindFieldTableName = ;
+Set vL.DateFieldLinkName = ;
+Set vL.CalendarTableName = ;
+Set vL.CalendarGenMinDate = ;
+Set vL.CalendarGenMaxDate = ;
+SET vL.CalendarGenToday = ;
+SET vL.MonthsLeftFiscalDates = ;
+END SUB
+// **********************************
+// Function written by Jonas Valleskog
+// **********************************

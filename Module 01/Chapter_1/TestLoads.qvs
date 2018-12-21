@@ -1,0 +1,157 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='€#,##0.00;-€#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD/MM/YYYY';
+SET TimestampFormat='DD/MM/YYYY hh:mm:ss[.fff]';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+Country_Sort:
+Load * Inline [
+Country
+USA
+Canada
+Germany
+United Kingdom
+China
+India
+Russia
+France
+Ireland
+];
+
+Category_Map:
+Mapping
+LOAD CategoryID, 
+     Category
+FROM
+[..\Scripts\Categories.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Product:
+LOAD ProductID, 
+     Product, 
+     //CategoryID, 
+     ApplyMap('Category_Map', CategoryID, 'Other') As Category,
+     SupplierID, 
+     CostPrice, 
+     SalesPrice as ProductPrice
+FROM
+[..\Scripts\Products.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Supplier:
+Join (Product)
+LOAD SupplierID, 
+     Company As Supplier, 
+     City as [Supplier City], 
+     Country as [Supplier Country]
+FROM
+[..\Scripts\Suppliers.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Drop Field SupplierID;
+
+Customer:
+LOAD AutoNumber(CustomerID, 'Customer') As CustomerID, 
+     Customer, 
+     City, 
+     Country, 
+     Region, 
+     Longitude, 
+     Latitude, 
+     Geocoordinates
+FROM
+[..\Scripts\Customers.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+EmployeeGrade_Map:
+Mapping
+LOAD Grade, 
+     Description
+FROM
+[..\Scripts\EmployeeGrades.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Employee:
+LOAD EmployeeID, 
+     AutoNumber(EmployeeID, 'Employee') As Employee, 
+     //Grade, 
+     ApplyMap('EmployeeGrade_Map', Grade, 'Other') As Grade,
+     SalesUnit
+FROM
+[..\Scripts\Employees.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Order:
+LOAD AutoNumber(OrderID, 'Order') As OrderID, 
+     Floor(1) As OrderCounter,
+     Floor(OrderDate) As DateID, 
+//     Year(OrderDate) As Year,
+//     Month(OrderDate) As Month,
+//     Day(OrderDate) As Day,
+//     Date(MonthStart(OrderDate), 'YYYY-MM') As YearMonth,
+//	 -YearToDate(OrderDate) As YTD_Flag,
+//	 -YearToDate(OrderDate,-1) As LYTD_Flag,
+     AutoNumber(CustomerID, 'Customer') As CustomerID, 
+     AutoNumber(EmployeeID, 'Employee') As EmployeeID, 
+     Num(Freight) As Freight,
+     Freight as Freight2
+FROM
+[..\Scripts\OrderHeader.qvd]
+(qvd);
+
+
+OrderLine:
+LOAD AutoNumber(OrderID, 'Order') As OrderID, 
+     LineNo, 
+     ProductID, 
+     Num(Quantity) As Quantity, 
+     Num(SalesPrice) As SalesPrice, 
+     Num(SalesCost) As SalesCost, 
+     Num(LineValue) As LineValue, 
+     Num(LineCost) As LineCost
+FROM
+[..\Scripts\OrderLine.qvd]
+(qvd);
+
+
+Calendar:
+Load Distinct
+	 DateID,
+	 -YearToDate(DateID) As YTD_Flag,
+	 -YearToDate(DateID,-1) As LYTD_Flag,
+	 Date(DateID) As Date,
+     Year(DateID) As Year,
+     Month(DateID) As Month,
+     Day(DateID) As Day,
+     Date(MonthStart(DateID), 'YYYY-MM') As YearMonth
+Resident
+	Order;
+
+
+// Move DateID, CustomerID and EmployeeID to OrderLine
+Join (OrderLine)
+Load
+	OrderID,
+	DateID,
+	CustomerID,
+	EmployeeID
+//	,
+//	YTD_Flag,
+//	LYTD_Flag
+Resident
+	Order;
+	
+Drop Fields DateID, CustomerID, EmployeeID //, YTD_Flag, LYTD_Flag 
+From Order;
+
+// Rename the OrderLine table
+RENAME Table OrderLine to Fact;
+
+Drop Table Country_Sort;
+	

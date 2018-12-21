@@ -1,0 +1,122 @@
+
+//-------- Start Multiple Select Statements ------
+OrderHeader:
+LOAD OrderID,
+    OrderDate,
+    CustomerID,
+    EmployeeID,
+    Freight;
+SQL SELECT *
+FROM QVTraining.dbo.OrderHeader;
+
+OrderLine:
+LOAD OrderID,
+    "LineNo",
+    ProductID,
+    Quantity,
+    SalesPrice,
+    SalesCost,
+    LineValue,
+    LineCost;
+SQL SELECT *
+FROM QVTraining.dbo.OrderLine;
+//-------- End Multiple Select Statements ------
+
+
+Fact:
+LOAD OrderID,
+    //"LineNo",
+    ProductID,
+    Quantity,
+    34 As StoreID,
+//    SalesPrice,
+//    SalesCost,
+    LineValue as [Sales Value],
+    LineCost as [Sales Cost],
+    LineValue-LineCost as [Sales Margin];
+SQL SELECT *
+FROM QVTraining.dbo.OrderLine;
+
+
+Left Join (Fact)
+LOAD OrderID,
+    Date(Floor(OrderDate), 'YYYYMMDD') as DateID,
+    CustomerID;
+    //EmployeeID,
+    //Freight;
+SQL SELECT *
+FROM QVTraining.dbo.OrderHeader;
+
+Customer:
+LOAD CustomerID,
+    Customer,
+    City,
+    Country,
+    Region,
+    Longitude,
+    Latitude,
+    Geocoordinates;
+SQL SELECT *
+FROM QVTraining.dbo.Customer;
+
+Product:
+LOAD ProductID, 
+     Product, 
+     CategoryID, 
+     SupplierID, 
+     CostPrice, 
+     SalesPrice
+FROM
+[..\..\Chapter 1\Scripts\Products.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+
+Let vStartDate=Floor(MakeDate(2009,1,1));
+Let vEndDate=Floor(MakeDate(2014,12,31));
+Let vDiff=vEndDate-vStartDate+1;
+
+Calendar:
+Load *,
+	Date(MonthStart(DateID), 'YYYY-MM') As YearMonth,
+	Year & '-' & Quarter As YearQuarter,
+	WeekYear & '-' & Num(Week, '00') As YearWeek;
+Load
+	DateID,
+	Year(DateID) As Year,
+	Month(DateID) As Month,
+	Date(DateID) As Date,
+	Day(DateID) As Day,
+	Week(DateID) As Week,
+	'Q' & Ceil(Month(DateID)/3) As Quarter,
+	WeekYear(DateID) As WeekYear,
+	-Year2Date(DateID) As YTD_Flag,
+	-Year2Date(DateID, -1) As LYTD_Flag;
+Load 
+	RecNo()-1+$(vStartDate) As DateID
+AutoGenerate($(vDiff));
+
+
+Store:
+Load * Inline [
+StoreID, Store, Store City, Store Country, Store Manager, Regional Manager
+34, Chicago MegaStore, Chicago, USA, Jane Grant, Tom Griffths
+];
+
+// Snowflake
+Category:
+LOAD CategoryID, 
+     Category
+FROM
+[..\..\Chapter 1\Scripts\Categories.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+
+Supplier:
+LOAD SupplierID, 
+     Company as [Supplier Company], 
+     City as [Supplier City], 
+     Country as [Supplier Country]
+FROM
+[..\..\Chapter 1\Scripts\Suppliers.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+

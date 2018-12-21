@@ -1,0 +1,54 @@
+Let vSetYTD = 'PeriodID = {"<=' & Chr(36) & '(=Max(PeriodID))"},' & Chr(10) &
+				'Year = {' & Chr(36) & '(=Max(Year))},' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+
+Let vSetQTD = 'PeriodID = {"<=' & Chr(36) & '(=Max(PeriodID))"},' & Chr(10) &
+				'QuarterID = {' & Chr(36) & '(=Max(QuarterID))},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+				
+Let vSetMTD = 'PeriodID = {' & Chr(36) & '(=Max(PeriodID))},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+
+Let vSetPreviousMonth = 'PeriodID = {' & Chr(36) & '(=Max(PeriodID) - 1)},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+				
+Let vSetPreviousQuarter = 'QuarterID = {' & Chr(36) & '(=Max(QuarterID) - 1)},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+
+Let vSetLYMTD = 'PeriodID = {' & Chr(36) & '(=Max(PeriodID) - 12)},' & Chr(10) &
+				'Year = {' & Chr(36) & '(=Max(Year)-1)},' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+
+Let vSetLYQTD = 'QuarterID = {' & Chr(36) & '(=Max(QuarterID) - 4)},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+				
+Let vSetLYYTD = 'PeriodID = {"<=' & Chr(36) & '(=Max(PeriodID) - 12)"},' & Chr(10) &
+				'Year = {' & Chr(36) & '(=Max(Year)-1)},' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';
+
+Let vSetRolling12 = 'PeriodID = {">=' & Chr(36) & '(=Max(PeriodID) - 11)<=' & Chr(36) & '(=Max(PeriodID))"},' & Chr(10) &
+				'Year = ,' & Chr(10) &
+				'Quarter = ,' & Chr(10) &
+				'Period = ,' & Chr(10) &
+				'Month = ';

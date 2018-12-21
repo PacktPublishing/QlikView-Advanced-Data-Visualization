@@ -1,0 +1,38 @@
+Budget_Day_Percent:
+Mapping Load * Inline [
+Day, Percentage
+0, .10
+1, .13
+2, .15
+3, .17
+4, .20
+5, .25
+6, 0
+];
+
+Budget:
+Load
+	YearWeek,
+	Store,
+	Product,
+	[Budget Value] As WeekBudget
+From Budget.qvd (QVD);
+
+Left Join (Budget)
+Load
+	YearWeek,
+	Date 
+From Calendar.qvd (QVD);
+
+Left Join (Budget)
+Load
+	Date,
+	Store,
+	Product,
+	WeekBudget 
+		* ApplyMap('Budget_Day_Percent', WeekDay(Date), 0)
+		As [Budget Value]
+Resident
+	Budget;
+
+Drop Field WeekBudget;

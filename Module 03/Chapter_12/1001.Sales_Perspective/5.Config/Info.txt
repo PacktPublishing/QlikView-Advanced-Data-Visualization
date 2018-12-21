@@ -1,0 +1,10 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// Config folder to store container specific configurations like xls, txt, mdb ..
+
+Global Variable = vG.ConfigPath
+Shared Global Variable= vG.SharedConfigPath

@@ -1,0 +1,9 @@
+Code,Description
+"0","Foreign Carriers"
+"1","Large Regional Carriers (carriers with annual revenue of $20 million to $100 million)"
+"2","National Carriers (carriers with annual revenue over $100 million to $1 billion)"
+"3","Major Carriers (carriers with annual revenue over $1 billion)"
+"4","Medium Regional Carriers (carriers with annual revenue under $20 million)"
+"5","Small Certificated Carriers (carrier holding certificate issued under 49 U.S.C. section 41101 and operating aircraft designed to have a maximum seating capacity of 60 or less seat or a maximum payload of 18,000 pounds or less.)"
+"6","Commuter Carriers (air taxi operator which performs at least five round trips per week between two or more points and publishes flight schedules which specify the times, days of the weeks and plans between which such flights are performed. )"
+"7","All Cargo Carriers operating under cerificates issued under 49 U.S.C. section 41103"

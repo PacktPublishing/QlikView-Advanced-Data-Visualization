@@ -1,0 +1,169 @@
+/* ___________________________________________________________________________
+  |   Deployment Framework QVFileInfo sub function 8.QVFileInfo.qvs    
+  |   
+  |  This script will collect the tables and fields from the QVW and QVD files
+  |  Fully Qualified file Name is the path and name of qvd or qvw file
+  |  Table Name (Optional) is name of the table returning the result
+  |  default table name is QVFileInfo linked with QVFileInfo_field (field details table)
+  |  First include the QVFileInfo Function $(Include=$(vG.SubPath)\8.QVFileInfo.qvs);
+  |  Usage QVFileInfo( 'Fully Qualified file Name',['Table Name'])
+  |  Example: QVFileInfo('$(vG.QVDPath)\Customer.qvd')
+  |  Example: QVFileInfo('$(vG.QVDPath)\Customer.qvd','QVFileTable')
+  |  
+  |  QVFileInfo works together with 5.DoDir.qvs 
+  |  the field FullyQualifiedName will automatically link with DoDir result table
+  ___________________________________________________________________________
+*/
+
+SUB QVFileInfo(vL.QVFile_tmp,vL.QVTableName_tmp);
+
+
+if FileTime('$(vL.QVFile_tmp)') > 0 then // Check if file exists
+
+// Remove double \\ in path, except in the beginning used in UNC path
+if index(trim('$(vL.QVFile_tmp)'),'\\',-1)>2 then
+LET vL.QVFile_tmp=left( '$(vL.QVFile_tmp)' , (index( '$(vL.QVFile_tmp)', '\\', -1 )-1))&right('$(vL.QVFile_tmp)', (len( '$(vL.QVFile_tmp)' ) -index( '$(vL.QVFile_tmp)', '\\', -1 )));
+endif
+
+
+
+if '$(vL.QVTableName_tmp)'='' then // If No TableName Exists Use QVFileInfo
+	SET vL.QVTableName_tmp = 'QVFileInfo';
+endif;
+
+FOR Each vL.filelist_tmp in filelist ('$(vL.QVFile_tmp)') //when scanning multiple (*) QV files 
+
+unqualify QVTablesKey,FullyQualifiedName,QVTableName,QVFileTime,QVTableNbrRows,QVTableNbrFields,QVTableNbrKeyFields,QVTableComment,QVFileName,QVFieldName,QVTableCreator,QVComment,QVTableCreator;
+switch upper(subfield('$(vL.filelist_tmp)','.',-1));
+case 'QVW'; // Case QVW files is identified
+Let vL.QVTimeStamp =DATE(FileTime( '$(vL.filelist_tmp)' ),'YYYY-MM-DD') ;
+SET ErrorMode =0; // remove error used if xml header can't be read
+	[$(vL.QVTableName_tmp)]: 
+	LOAD 		
+		upper('$(vL.filelist_tmp)' & '_' & '$(vL.QVTimeStamp)' &'_' & Name) as QVTablesKey,
+		'$(vL.filelist_tmp)' as FullyQualifiedName,
+	    Name			as QVTableName,
+		timestamp(FileTime( '$(vL.filelist_tmp)') ,'$(TimestampFormat)') as QVFileTime,
+	    NoOfRows		as QVTableNbrRows,
+	    NoOfFields		as QVTableNbrFields,
+	    NoOfKeyFields		as QVTableNbrKeyFields,
+	    Comment			as QVTableComment,
+      subfield('$(vL.filelist_tmp)','\',-1) as QVFileName,
+      Null() as QVTableCreator // not used by QVW
+	FROM $(vL.filelist_tmp) (XmlSimple, Table is [DocumentSummary/TableDescription]) //Load data from xml qvw header 
+	WHERE IsSystem = 'false';
+	if ScriptError <> 0 then // Error message if XML read goes wrong
+	trace '### DF Error reading QVW XML Header, QVFileInfo ';
+	trace '### DF File $(vL.filelist_tmp)';
+	endif
+	
+	[$(vL.QVTableName_tmp)_Fields]:
+	LOAD 		
+	    upper('$(vL.filelist_tmp)' & '_' & '$(vL.QVTimeStamp)' &'_' & [SrcTables/String]) as QVTablesKey,
+	    Name as QVFieldName,
+	    QVComment
+	FROM $(vL.filelist_tmp) (XmlSimple, Table is [DocumentSummary/FieldDescription])
+	WHERE IsSystem = 'false';
+	if ScriptError <> 0 then // Error message if XML read goes wrong
+		trace '### DF Error reading QVW XML Header, 8.QVFileInfo.qvs ';
+		trace '### DF File $(vL.filelist_tmp)';
+	endif
+SET ErrorMode =1;	
+case 'QVD'; // Case QVD files is identified
+if QvdNoOfFields('$(vL.filelist_tmp)') > 0 then // no point in loading if the file is empty or have faulty
+
+// Validating compatible QVD's
+set ErrorMode=0;
+
+[$(vL.QVTableName_tmp)_Validate]:
+LOAD 
+    [CreatorDoc] as QVTableCreator
+FROM [$(vL.filelist_tmp)] (XmlSimple, Table is [QvdTableHeader]);
+
+if not ScriptError=0 then
+	set vL.IncompatibleQVD=1;
+else
+	set vL.IncompatibleQVD=;
+	drop table [$(vL.QVTableName_tmp)_Validate];
+endif
+set ErrorMode=1;
+
+if vL.IncompatibleQVD=1 then // Different load depending on QVD compatibility
+trace '### DF Found Incompatible QVD header format, will skip XML data';
+
+[$(vL.QVTableName_tmp)]:
+LOAD 
+    upper('$(vL.filelist_tmp)' & '_' & Date(QvdCreateTime('$(vL.filelist_tmp)'),'YYYY-MM-DD') &'_' & QvdTableName('$(vL.filelist_tmp)')) as QVTablesKey,
+    '$(vL.filelist_tmp)' as FullyQualifiedName,
+    QvdTableName('$(vL.filelist_tmp)')   as QVTableName,
+    timestamp(QvdCreateTime('$(vL.filelist_tmp)'),'$(TimestampFormat)') as QVFileTime,
+      QvdNoOfRecords('$(vL.filelist_tmp)')   as QVTableNbrRows,
+      QvdNoOfFields('$(vL.filelist_tmp)')  as QVTableNbrFields,
+    null()  as QVTableNbrKeyFields, // not used by QVD
+    null()  as QVTableComment, // not used, QVD incompatibility
+    subfield('$(vL.filelist_tmp)','\',-1) as QVFileName,
+    null()  as QVTableCreator // not used, QVD incompatibility
+    AUTOGENERATE(1);
+
+else
+[$(vL.QVTableName_tmp)]:
+LOAD 
+    upper('$(vL.filelist_tmp)' & '_' & Date(QvdCreateTime('$(vL.filelist_tmp)'),'YYYY-MM-DD') &'_' & QvdTableName('$(vL.filelist_tmp)')) as QVTablesKey,
+    '$(vL.filelist_tmp)' as FullyQualifiedName,
+    QvdTableName('$(vL.filelist_tmp)')   as QVTableName,
+    timestamp(QvdCreateTime('$(vL.filelist_tmp)'),'$(TimestampFormat)') as QVFileTime,
+      QvdNoOfRecords('$(vL.filelist_tmp)')   as QVTableNbrRows,
+      QvdNoOfFields('$(vL.filelist_tmp)')  as QVTableNbrFields,
+    null()  as QVTableNbrKeyFields, // not used by QVD
+    [Comment] as QVTableComment,
+    subfield('$(vL.filelist_tmp)','\',-1) as QVFileName,
+    [CreatorDoc] as QVTableCreator
+    FROM [$(vL.filelist_tmp)] (XmlSimple, Table is [QvdTableHeader]);	
+endif
+
+for vL.FieldNo_tmp = 1 to QvdNoOfFields('$(vL.filelist_tmp)')
+[$(vL.QVTableName_tmp)_Fields]:
+	LOAD 
+	upper('$(vL.filelist_tmp)' & '_' & Date(QvdCreateTime('$(vL.filelist_tmp)'),'YYYY-MM-DD') &'_' & QvdTableName('$(vL.filelist_tmp)')) as QVTablesKey	,	
+	    QvdFieldName('$(vL.filelist_tmp)' , $(vL.FieldNo_tmp)) as QVFieldName,
+	    null()		as QVComment // not used by QVD
+	autogenerate 1;
+	
+Next vL.FieldNo_tmp
+
+else
+	trace '### DF Info 8.QVFileInfo.qvs Cant find any data in $(vL.QVFile_tmp)';
+endif
+	
+end switch
+
+next vL.filelist_tmp
+
+// -----------------------------------------------
+// Comment section for the table and its fields
+// -----------------------------------------------
+comment Field QVTablesKey with 'This field is a combination of the file name and table name of the QVW table.';
+comment Field FullyQualifiedName with 'Fully Qualified Name of QlikView File.';
+comment Field QVTableName with 'Table name of the QVW table scanned';
+comment Field QVTableNbrRows with 'Number of rows in the QVW table.';
+comment Field QVTableNbrFields with 'Number of fields in the QVW table.';
+comment Field QVTableNbrKeyFields with 'Number of key fields in the QVW table.';
+comment Field QVTableComment with 'Table comment in the QVW table (loaded in the script).';
+
+
+comment Field QVTablesKey with 'This field is a combination of the file name and table name of the QVW table.';
+comment Field QVFieldName with 'QVW Field name in the QVW table that was scanned.';
+comment Field QVWComment with 'Comment for the field (loaded in the script).';
+else
+	trace '### DF Info 8.QVWInfo.qvs Cant find $(vL.QVFile_tmp)';
+endif 
+
+// Clean up
+SET vL.QVFile_tmp=;
+SET vL.QVTableName_tmp=;
+SET vL.QVTimeStamp=;
+SET vL.FieldNo_tmp=;
+SET vL.filelist_tmp=;
+set vL.IncompatibleQVD=;
+
+END SUB

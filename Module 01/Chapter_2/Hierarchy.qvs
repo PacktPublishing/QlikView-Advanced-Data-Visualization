@@ -1,0 +1,31 @@
+
+Location:
+//Hierarchy(NodeID, ParentID, Location, 'Parent Location', 'Location', 'PathName', '~', 'Depth') 
+
+HierarchyBelongsTo (NodeID, ParentID, Location, 'AncestorID', 'AncestorName', 'DepthDiff')
+Load * Inline [
+NodeID, Location, ParentID
+1, World,
+2, EMEA, 1
+3, Americas, 1
+4, AsiaPac, 1
+5, USA, 3
+6, Canada, 3
+7, Brazil, 3
+8, UK, 2
+9, Germany, 2
+10, France, 2
+11, China, 4
+12, Japan, 4
+13, New York, 5
+14, Texas, 5
+15, California, 5
+16, London, 8
+17, Greater Manchester, 8
+18, Manchester, 17
+19, Bavaria, 9
+20, Munich, 19
+21, New York, 13
+22, Heuston, 14
+23, San Francisco, 15
+];

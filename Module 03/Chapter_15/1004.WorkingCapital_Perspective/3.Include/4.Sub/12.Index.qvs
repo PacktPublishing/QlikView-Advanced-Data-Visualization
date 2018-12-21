@@ -1,0 +1,534 @@
+/*=================================================================================================
+IndexAdd creates a QVD index. The index is based on meta-data and tags collected from the QVD header. The index can thereby be recreated if need be. The index default location is $(vG.SharedConfigPath)/Index location can be modified if needed. Execute IndexAdd sub function inside the script:
+Call IndexAdd(‘QVD path and name’,['Index folder name'] ,['Container name'] ,['Tags'] ,['Alternative Index path'])
+
+• QVD path and name Path and name of QVD file to Index, wild card (*.qvd) is supported
+• Index folder name (Optional) Place the Index in a specific folder, default is to use qvd folder name
+• Container name (Optional) Specify the QVD files container name, this is usually identified automatically 
+• Tags (Optional) Add index tag, recommendation is to use the comment table function instead as this will be more persistent.
+• Alternative Index path (Optional) will change the default Index path ($(vG.SharedConfigPath)/Index) This is not recommended as all functions would need the alternative path specified
+Examples:
+Call IndexAdd(‘vG.QVDPath\Customers.qvd’); Will add an index for Customers.qvd file
+Call IndexAdd(‘vG.QVDPath\*.qvd’); Will add an index for all qvd files in vG.QVDPath path
+
+Using Comment field to tag QVD data
+It is strongly recommended to add tags into your qvd data files, these tags will identify what data to load. For example if we create an aggregated QVD data layer it could be tagged -for example- as Level2 (where level 1 is un-aggregated). This is done by adding tag (or tags) into the qvd using the Comment Table function. This should be done before storing the QVD, creating the index using IndexAdd should be done after Store, as shown in this example:
+Comment Table [$(vL.TableName)] with 'Level2'; 
+Store [$(vL.TableName)] into '$(vG.QVDPath)\Folder\$(vL.TableName).qvd';
+Call IndexAdd('$(vG.QVDPath)\Folder\$(vL.TableName).qvd');
+Several tags can be added using comma (,) as separator as shown below:
+Comment Table [$(vL.TableName)] with 'Level2,SalesAgg';
+*/
+
+SUB IndexAdd(vL._IndexQVD,vL._IndexFolderName,vL.ContainerPathName,vL._TAG,vL._AltIndexPath);
+$(Include=$(vG.SubPath)\5.DoDir.qvs);
+$(Include=$(vG.SubPath)\8.QVFileInfo.qvs);
+$(Include=$(vG.SubPath)\1.FileExist.qvs);
+$(Include=$(vG.SubPath)\3.LoadContainerMap.qvs);
+
+if not right( trim('$(vL._IndexQVD)') , 4)= '.qvd'  then // add .qvd if needed
+  let vL._IndexQVD ='$(vL._IndexQVD).qvd';
+endif
+
+If '$(vL.ContainerPathName)' = '' then // If ContainerName blank identify container automatially 
+  call LoadContainerMap('$(vG.BaseVariablePath)\ContainerMap.csv','','$(vL._IndexQVD)');    // Call LoadContainerMap function to get current container prefix Name (vL.ContainerPathName)
+endif
+
+Call DoDir ('$(vL._IndexQVD)', '_tmp_DoDir', '', 'true','true'); //Dir of QVD source directory
+
+let vL._xxDoDir = NoOfRows('_tmp_DoDir'); //No of rows in DoDir table
+
+for vL._ttDoDir = 0 to vL._xxDoDir
+    LET vL._IndexQVD = peek('_tmp_DoDir.FullyQualifiedName',$(vL._ttDoDir),'_tmp_DoDir'); // Get QVD filename
+    LET vL._QVDFileName= peek('_tmp_DoDir.DoDirFileName',$(vL._ttDoDir),'_tmp_DoDir'); // Get Qvd FileName
+
+call vL.FileExist ('$(vL._IndexQVD)'); // Validates if QVD file exists, if not skip function
+if vL.FileExist = 'true' then // Only run Index if QVD exist
+
+if not '$(vL._AltIndexPath)' = '' then // set alternative Index path
+  call vL.FileExist ('$(vL._AltIndexPath)');
+  if '$(vL.FileExist)'='true'
+    Let vL.SharedConfigPath= '$(vL._AltIndexPath)';
+    //--- Create Index base folder ---- 
+  endif
+else
+Let vL.SharedConfigPath= '$(vG.SharedConfigPath)'; // default Index path
+endif
+
+call CreateFolder('$(vL.SharedConfigPath)Index'); // Validat if Index folder exists in SharedConfig, if missing create Index
+
+//---------------------------- Collect Meta Data using QVFileInfo ---------------
+
+call QVFileInfo('$(vL._IndexQVD)','__TMP_Fields'); // Get Meta information regarding the QVD file
+  
+if '$(vL._TAG)' = '' then // If comment field's blank identify fields automatically
+    Let vL._TAG = peek('QVTableComment',0,'__TMP_Fields');
+endif
+
+Let vL.__FileTime = num(timestamp(peek('QVFileTime',0,'__TMP_Fields'),'$(DateFormat)')); //Get Time and Date
+let vL._QVTableName =  peek('QVTableName',0,'__TMP_Fields');
+Let vL._QVTableCreator = peek('QVTableCreator',0,'__TMP_Fields'); // Get QVTableCreator
+let vL._QVNoRows =  peek('QVTableNbrRows',0,'__TMP_Fields');
+let vL._QVNofields =  peek('QVTableNbrFields',0,'__TMP_Fields');
+
+let vL._xxxx = NoOfRows('__TMP_Fields_Fields');
+
+for vL._tt = 0 to vL._xxxx
+    LET vL.__Fields = '$(vL.__Fields)'&','& peek('QVFieldName',$(vL._tt),'__TMP_Fields_Fields'); // concatenate fields using ; as separator
+Next vL._tt
+
+
+drop table __TMP_Fields ;
+drop table __TMP_Fields_Fields ;
+//---------------------------- Collect Meta Data done---------------
+
+
+vL._IndexQVD=left('$(vL._IndexQVD)',len('$(vL._IndexQVD)')-len('$(vL._QVDFileName)')); // Create folder path only
+
+do while right( '$(vL._IndexQVD)' , 1 ) ='\' // Remove backslash in end
+    let vL._IndexQVD =left('$(vL._IndexQVD)',len('$(vL._IndexQVD)')-1);
+    exit do unless right( '$(vL._IndexQVD)' , 1 ) ='\';
+loop ;
+
+
+if '$(vL._IndexFolderName)' = '' then // Set Index folder Name if not already set
+  let vL._FolderName=mid('$(vL._IndexQVD)',findoneof('$(vL._IndexQVD)','\/',-1)+1,Len('$(vL._IndexQVD)')); // Create IndexFolderName based on QVD folder
+  let vL._IndexFolderName='$(vL.ContainerPathName)';
+  call CreateFolder('$(vL.SharedConfigPath)Index\$(vL._IndexFolderName)');
+  LET vL._ConfigPath = '$(vL.SharedConfigPath)Index\$(vL._IndexFolderName)\$(vL._FolderName)\';
+else // If alternative Index is used create a different vL._ConfigPath
+  let vL._ConfigPath = '$(vL.SharedConfigPath)Index\$(vL._IndexFolderName)\';
+endif
+//--- Create Index folders ---- 
+
+call CreateFolder('$(vL._ConfigPath)'); // If Index name missing Then create this one
+
+LET vL.RelativePath= left ('$(vL.RelativePath)',index('$(vL.RelativePath)','\',-1))&'$(vL._QVDFileName)'; //Add correct qvd file name to relative path
+
+// Field names
+// QVDFileName,QVTableName,QVDSourcePath,QVDSourceContainerName,RelativePath,QVDTag,QVDIndexStorageName,QVDTimestamp,QVDFields,QVDTableCreator,QVDNbrRecords,QVDNbrFields
+
+unqualify 'QVDFileName','QVTableName','QVDSourcePath','QVDSourceContainerName','RelativePath','QVDTag','QVDIndexStorageName','QVDTimestamp','QVDFields','QVDTableCreator','QVDNbrRecords','QVDNbrFields';
+[___vL.tmpTable]:
+  LOAD * INLINE ['QVDFileName','QVTableName','QVDSourcePath','QVDSourceContainerName','RelativePath','QVDTag','QVDIndexStorageName','QVDTimestamp','QVDFields','QVDTableCreator','QVDNbrRecords','QVDNbrFields'
+  '$(vL._QVDFileName)','$(vL._QVTableName)','$(vL._IndexQVD)','$(vL.ContainerPathName)','$(vL.RelativePath)',',$(vL._TAG),','$(vL._IndexFolderName)','$(vL.__FileTime)','$(vL.__Fields)','$(vL._QVTableCreator)','$(vL._QVNoRows)','$(vL._QVNofields)'];
+
+store * from [___vL.tmpTable] into '$(vL._ConfigPath)$(vL._QVDFileName).Index' (txt,delimiter is ';' );
+
+drop table [___vL.tmpTable];
+
+endif
+
+// Cleanup inside loop
+set vL._QVNofields = ;
+set vL._QVNoRows = ;
+Set vL._ConfigPath = ;
+SET vL._TAG = ;
+Set vL.__Fields = ;
+Set vL._IndexFolderName = ;
+Set vL._xxxx = ;
+Set vL._tt = ;
+set vL._QVNofields = ;
+set vL._QVNoRows = ;
+Set vL.FileExist =  ;
+set vL._QVTableCreator = ;
+set vL._QVTableName = ;
+set vL.__FileTime = ;
+Set vL._FolderName=;
+Next vL._ttDoDir
+
+// Cleanup
+drop table _tmp_DoDir ;
+Set vL._AltIndexPath = ;
+Set vL._IndexQVD = ;
+set vL._xxDoDir=;
+set vL._ttDoDir=;
+set vL._ContainerName=;
+set vL.RelativePath=;
+set vL.SharedConfigPath=;
+SET vL.ContainerFolderName=;
+SET vL.RootPath=;
+SET vL.Comment=;
+Set vL.ContainerPathName = ;
+
+END SUB
+
+/*=================================================================================================
+IndexLoad loads qvd data based on index search criteria’s like tags and field names. The qvd fieldname is the primary search criteria so it’s strongly recommended to have a qvd naming convention like day-month-year-TableName.qvd.
+Execute IndexLoad sub function inside the script:
+
+Call IndexLoad([‘QVD file name’],['Table Name'] ,['Index Folder Name'] ,['Tags'] ,['Fields'] ,['Index Only'] ,['Load Max Rows'] ,[ ['Alternative Index path'])
+
+• QVD file name  (Optional) Name of QVD to load, wild cards (*01-2015*) is supported
+• Table Name (Optional) Load in a table, can be combined with QVD file name
+• Index Folder Name (Optional) use this specific index only, can be combined with QVD file name
+• Tags (Optional) load data containing a specific  tag, can be combined with QVD file name
+• Fields (Optional) load selected fields separated by comma (,) can be combined with QVD file name
+• Index Only (Optional) will only load in the Index, true will use default table name (vL._QVDIndexTable). Type table name from default vL._QVDIndexTable. This is used when developing apps where the Index is needed. 
+• LoadMaxRows (Optional) will limit how many rows that can be loaded. This will only stop sequential QVD file to load a big QVD will probably load above this limit.
+• Alternative Index path (Optional) will change the default Index path ($(vG.SharedConfigPath)/Index) This is not recommended as all functions would need the alternative path specified
+
+Convert timestamp to date : Let vL.Date = timestamp(42031.554270833,'$(DateFormat)');
+*/
+
+SUB IndexLoad(vL._IndexQVD,vL._Table,vL._IndexFolderName,vL._TAG,vL._QVDFields,vL._LoadIndexOnly,vL._LoadMaxRows,vL._AltIndexPath);
+$(Include=$(vG.SubPath)\5.DoDir.qvs);
+$(Include=$(vG.SubPath)\1.FileExist.qvs);
+
+call vL.FileExist ('$(vL._AltIndexPath)');
+if not '$(vL._AltIndexPath)' = '' and vL.FileExist = 'true' then // validate and select Index path
+  Let vL.SharedConfigPath= '$(vL._AltIndexPath)\Index';
+else 
+  Let vL.SharedConfigPath= '$(vG.SharedConfigPath)\Index';
+endif
+
+If not '$(vL._IndexFolderName)' = '' then //Select specific Index to use
+  let vL._IndexFolderName='$(vL._IndexFolderName)\' ; //Add a backslash to Index folder name
+endif
+
+let vL._QVDIndexTable='vL._QVDIndexTable'; // Name the Index Table
+If not '$(vL._LoadIndexOnly)'='' and not lower('$(vL._LoadIndexOnly)')='true' then // validate Index only switch also name custom index table name
+  let vL._QVDIndexTable= '$(vL._LoadIndexOnly)'; // Rename Index table name
+endif
+
+
+If not '$(vL._IndexQVD)' = '' and substringcount( '$(vL._IndexQVD)' , '*') =0 then 
+  let vL._IndexQVD ='*'&'$(vL._IndexQVD)'&'*.index';
+else
+  let vL._IndexQVD ='*.index';
+endif
+
+//-----------------Load in Index folders ---------------------------
+Call DoDir ('$(vL.SharedConfigPath)\$(vL._IndexFolderName)', '_tmp_DoDir', 'true', '','true'); //Dir of Index directories
+//------------------------- end ------------------------------------
+
+if NoOfFields('_tmp_DoDir') >0 then // Validate if DoDir Table Exists
+
+let vL._xxDoDir = NoOfRows('_tmp_DoDir');
+
+for vL._ttDoDir = 0 to vL._xxDoDir -1
+
+LET vL.__IndexFile = peek('_tmp_DoDir.FullyQualifiedName',$(vL._ttDoDir),'_tmp_DoDir'); 
+
+if filesize('$(vL.__IndexFile)\$(vL._IndexQVD)') >0 then
+
+unqualify QVDFileName,QVTableName,QVDSourcePath,QVDSourceContainerName,RelativePath,QVDTag,QVDFields,QVDNbrRecords;
+
+if '$(vL._LoadIndexOnly)'='' then // load more if only the index should be loaded
+$(vL._QVDIndexTable):
+  LOAD QVDFileName, 
+     QVTableName, 
+     QVDSourcePath, 
+     QVDSourceContainerName, 
+     RelativePath, 
+     QVDTag,  
+     QVDFields, 
+     QVDNbrRecords 
+  FROM
+  [$(vL.__IndexFile)\$(vL._IndexQVD)] (txt, utf8, embedded labels, delimiter is ';', msq);;
+
+else // load more if only the index should be loaded
+$(vL._QVDIndexTable): 
+  LOAD *
+  FROM
+  [$(vL.__IndexFile)\$(vL._IndexQVD)] (txt, utf8, embedded labels, delimiter is ';', msq);;
+endif
+
+endif
+
+Next vL._ttDoDir
+drop table [_tmp_DoDir];
+
+
+//----------------------- Loop Index data -------------------------
+
+if '$(vL._LoadIndexOnly)'='' and NoOfFields('$(vL._QVDIndexTable)') >0 then // If Index only swish used do not load 
+
+lET vL.__QVDNbrRecordsTotal =0; // Reset Total nbr of records
+if  '$(vL._LoadMaxRows)'='' then // If max rows reach skip load
+  let vL._LoadMaxRows = 0 ;
+endif 
+
+let vL._xxDoDir = NoOfRows('$(vL._QVDIndexTable)'); 
+
+for vL._ttDoDir = 0 to vL._xxDoDir -1
+
+SET vL._LoadSwich='*'; // default load statement
+LET vL.__QVDFileName = peek('QVDFileName',$(vL._ttDoDir),'$(vL._QVDIndexTable)'); // retrieving Index data
+LET vL.__QVTableName = peek('QVTableName',$(vL._ttDoDir),'$(vL._QVDIndexTable)'); 
+LET vL.__QVDSourcePath = peek('QVDSourcePath',$(vL._ttDoDir),'$(vL._QVDIndexTable)'); 
+LET vL.__QVDContainer = peek('QVDSourceContainerName',$(vL._ttDoDir),'$(vL._QVDIndexTable)');
+LET vL.__QVDRelativePath = peek('RelativePath',$(vL._ttDoDir),'$(vL._QVDIndexTable)');
+LET vL.__QVDTag = peek('QVDTag',$(vL._ttDoDir),'$(vL._QVDIndexTable)'); 
+LET vL.__QVDFields = peek('QVDFields',$(vL._ttDoDir),'$(vL._QVDIndexTable)');
+LET vL.__QVDNbrRecords = peek('QVDNbrRecords',$(vL._ttDoDir),'$(vL._QVDIndexTable)');
+LET vL.__QVTableName_tmp='$(vL.__QVTableName)';  //Create a table name temp variable, original is used when creating table
+
+// Validate table match
+if not trim('$(vL._Table)') = '' and trim('$(vL._Table)') = trim('$(vL.__QVTableName_tmp)') then
+
+elseif not trim('$(vL._Table)') = ''  then
+  SET vL._LoadSwich=''; // if not skip load
+  let vL._Reason='Table name did not match';
+else 
+vL.__QVTableName_tmp='$(vL._Table)'; //There are no tables selected, means that current table is possible
+endif
+
+// Validate if Tag is available
+if not trim('$(vL._TAG)') = '' and substringcount(trim('$(vL.__QVDTag)') , ','&trim('$(vL._TAG)')&',')  >0  then
+
+  elseif not trim('$(vL._TAG)') = ''  then
+    SET vL._LoadSwich=''; // if not skip load
+    let vL._Reason='Tag did not match';
+else
+vL.__QVDTag=',$(vL._TAG),'; //There are no tags selected, means that any tag is possible
+endif
+
+//--------------------------------Field loop------------------------------------------------------------
+// Validate if any field is selected and if tags and table is valid
+if not trim('$(vL._QVDFields)') = '' and substringcount(trim('$(vL.__QVDTag)') , ','&trim('$(vL._TAG)')&',')  >0 and trim('$(vL._Table)') = trim('$(vL.__QVTableName_tmp)') then
+  SET vL._LoadSwich=;
+      // loop to select fields to be loaded
+  LET vL._QVDFields_tmp=Replace(Replace(','&'$(vL._QVDFields)'&',',' ,',','),', ',',');// Adding (,) to identify fields in loop, uses (,) as field separators and remove unwanted spaces
+
+for vL.IndexFields_tmp = 0 to (substringcount('$(vL._QVDFields_tmp)',',')-2)
+LET vL.filelist_tmp=TextBetween('$(vL._QVDFields_tmp)', ',' , ',' , $(vL.IndexFields_tmp)+1 );
+LET vL.__Exit = '';
+
+exit for when '$(vL.filelist_tmp)' = '' // Reset vL.Store_Select_tmp_new variable
+
+for vL.NoOfRows_Loop_tmp = 0 to (substringcount('$(vL.__QVDFields)',',')-2)
+  if trim(TextBetween('$(vL.__QVDFields)', ',' , ',' , $(vL.NoOfRows_Loop_tmp)+1)) = trim('$(vL.filelist_tmp)') then
+    LET vL._TempField = TextBetween('$(vL.__QVDFields)', ',' , ',' , $(vL.NoOfRows_Loop_tmp)+1);
+    LET vL._LoadSwich='$(vL._LoadSwich)'&',['&'$(vL._TempField)'&']'; // Concatenated load statement
+    LET vL.__Exit = 'true';
+  endif 
+  exit for when '$(vL.__Exit)' = 'true'
+next vL.NoOfRows_Loop_tmp
+next vL.IndexFields_tmp
+
+// Remove (,) before the first concatenated field
+LET vL._LoadSwich= right('$(vL._LoadSwich)',len('$(vL._LoadSwich)')-1);
+
+elseif not trim('$(vL._QVDFields)') = ''  then
+  SET vL._LoadSwich=''; // If fields missing skip load
+  let vL._Reason='Did not find any valid fields';
+endif
+
+//-------------------------------------End Field loop------------------------------------------------------
+      
+if not '$(vL._LoadSwich)' = '' then // Validate if load is possible
+  if not '$(vL.__QVDContainer)'='' and not filesize('$(vG.$(vL.__QVDContainer)BasePath)InitLink.qvs') ='' then // Validate if a container needs mounting
+    call LCGV('$(vL.__QVDContainer)','BasePath'); // Mount container if missing
+  endif
+
+  if filesize('$(vG.$(vL.__QVDContainer)BasePath)$(vL.__QVDRelativePath)') > 0 then // Validating path
+    let vL.__LoadPath='$(vG.$(vL.__QVDContainer)BasePath)$(vL.__QVDRelativePath)'; //Primary qvd load using containers and relative path
+  elseif filesize('$(vL.__QVDSourcePath)$(vL.__QVDFileName)') > 0 then
+    let vL.__LoadPath='$(vL.__QVDSourcePath)$(vL.__QVDFileName)' ; // Secondary qvd load using hard coded URL
+  else 
+    let vL.__LoadPath=; // No qvd path found :(
+    let vL._Reason='Missing QVD File';
+  endif
+
+  if  not '$(vL._LoadMaxRows)'=0 and $(vL.__QVDNbrRecordsTotal) > $(vL._LoadMaxRows) then // If max rows reach skip load
+    let vL.__LoadPath=; 
+    let vL._Reason='Max row limit exeded';
+  endif 
+
+  if not '$(vL.__LoadPath)'='' then
+  
+    [$(vL.__QVTableName)]: // Loading selected data
+    LOAD $(vL._LoadSwich)
+    FROM
+    [$(vL.__LoadPath)] (qvd);
+
+    let vL.__QVDNbrRecordsTotal=$(vL.__QVDNbrRecordsTotal)+$(vL.__QVDNbrRecords);
+    Trace '### DF Info loading: $(vL.__QVTableName), Total amount of records: $(vL.__QVDNbrRecordsTotal)';
+  else
+    Trace '### DF Info, did not load: $(vL.__QVDFileName) $(vL._Reason)';
+  endif
+endif
+
+Next vL._ttDoDir
+
+drop table $(vL._QVDIndexTable); // Drop Index Table
+endif
+
+else
+
+Trace '### DF Warning Could load Index table, probably no index exists';
+endif
+
+// Cleanup
+SET vL._Reason=;
+SET vL.__QVDNbrRecordsTotal =;
+SET vL.__QVDNbrRecords=;
+SET vL._TAG = ;
+SET vL._LoadSwich = ;
+SET vL.__LoadPath = ;
+Set vL._IndexFolderName = ;
+set vL._QVNoRows = ;
+Set vL.FileExist =  ;
+LET vL.__QVDFields=;
+SET vL._QVDFields_tmp=;
+SET vL.__Exit=;
+set vL._LoadIndexOnly = ;
+Set vL._AltIndexPath = ;
+Set vL._IndexQVD = ;
+set vL._xxDoDir=;
+set vL._ttDoDir=;
+set vL.filelist_tmp=;
+SET vL.SharedConfigPath=;
+SET vL.__IndexFile=;
+SET vL._QVDIndexTable=;
+SET vL.__QVTableName=;
+SET vL.__QVTableName_tmp=;
+SET vL.__QVDTag=;
+SET vL.__QVDContainer=;
+SET vL.__QVDRelativePath=;
+SET vL.__QVDFileName=;
+SET vL.__QVDSourcePath=;
+
+END SUB
+
+/*=================================================================================================
+IndexDel delete indexes and optionally associated qvd files. This could be needed keeping a consistent qvd strategy. Example, Storing 24 month of history indexes and qvd files older than 24 month should be removed else history will keep on growing infinite. IndexDel will search for the qvd fieldname (from the index) so it’s strongly recommended to have a qvd file naming convention, like TableName\day-month-year-TableName.qvd.
+
+Execute IndexDel sub function inside the script:
+Call IndexDel(‘Index file name’,['Delete associated QVD files'] ,['Index Folder Name'] ,['Alternative Index path'])
+
+• Index file name Name of index to delete, wild cards (*) is supported
+• Delete associated QVD files (Optional) if true qvd files associated to the indexes will also be deleted
+• Index Folder Name (Optional) use this specific index only, can be combined with Index file name
+• Alternative Index path (Optional) will change the default Index path ($(vG.SharedConfigPath)/Index) This is not recommended as all functions would need the alternative path specified
+
+Call IndexDel(‘2011-12*’); Deletes all Index files that starts with the name 2011-12 
+
+Call IndexDel(‘2011-12*’,’true’);  Will delete all index and associated qvd files that starts with the name 2011-12
+
+*/
+
+
+SUB IndexDel(vL._IndexQVD,vL._DeleteQVD,vL._IndexFolderName,vL._AltIndexPath);
+$(Include=$(vG.SubPath)\5.DoDir.qvs);
+$(Include=$(vG.SubPath)\1.FileExist.qvs);
+
+if not '$(vL._IndexQVD)' ='' then
+
+call vL.FileExist ('$(vL._AltIndexPath)');
+if not '$(vL._AltIndexPath)' = '' and vL.FileExist = 'true' then // validate and select Index path
+  Let vL.SharedConfigPath= '$(vL._AltIndexPath)\Index';
+else 
+  Let vL.SharedConfigPath= '$(vG.SharedConfigPath)\Index';
+endif
+
+If not '$(vL._IndexFolderName)' = '' then //Select specific Index to use
+  let vL._IndexFolderName='$(vL._IndexFolderName)\' ; //Add a backslash to Index folder name
+endif
+
+let vL._IndexQVD ='$(vL._IndexQVD).index'; // Add index prefix
+
+
+//-----------------Load in Index section---------------------------
+Call DoDir ('$(vL.SharedConfigPath)\$(vL._IndexFolderName)$(vL._IndexQVD)', '_tmp_DoDir', '', '','true'); //Dir of vL._IndexQVD file or directory
+
+if NoOfFields('_tmp_DoDir') >0 then // Validate if DoDir Table Exists
+
+let vL._xxDoDir = NoOfRows('_tmp_DoDir');
+
+for vL._ttDoDir = 0 to vL._xxDoDir -1
+
+LET vL.__IndexFile = peek('_tmp_DoDir.FullyQualifiedName',$(vL._ttDoDir),'_tmp_DoDir'); 
+
+unqualify QVDFileName,QVDSourcePath,QVDSourceContainerName,RelativePath,QVDIndexStorageName;
+
+vL._QVDIndex:
+  LOAD QVDFileName,  
+     QVDSourcePath, 
+     QVDSourceContainerName,
+     RelativePath,
+     QVDIndexStorageName
+  FROM
+[$(vL.__IndexFile)] (txt, utf8, embedded labels, delimiter is ';', msq);
+Next vL._ttDoDir
+
+drop table [_tmp_DoDir];
+
+//------------------------------------------------
+
+let vL._xxDoDir = NoOfRows('vL._QVDIndex');
+
+for vL._ttDoDir = 0 to vL._xxDoDir -1 // Retrieving index data
+LET vL.__QVDFileName = peek('QVDFileName',$(vL._ttDoDir),'vL._QVDIndex'); //Filename
+LET vL.__QVDSourcePath = peek('QVDSourcePath',$(vL._ttDoDir),'$(vL._QVDIndexTable)'); //Hard coded qvd Source path, only used as backup
+LET vL.__QVDContainer = peek('QVDSourceContainerName',$(vL._ttDoDir),'vL._QVDIndex'); //ContainerName
+LET vL.__QVDRelativePath = peek('RelativePath',$(vL._ttDoDir),'vL._QVDIndex'); //RelativePath
+LET vL.__QVDIndexStorageName = peek('QVDIndexStorageName',$(vL._ttDoDir),'vL._QVDIndex')&'\'; //Index storage folder name
+
+
+  if not '$(vL.__QVDFileName)' ='' then // Delete only if a QVD name exists
+
+//----------------------- Delete Index --------------------------------
+    if FileSize('$(vL.SharedConfigPath)\$(vL.__QVDIndexStorageName)$(vL.__QVDFileName).Index') >0 then
+      Trace '### DF Info, delete Index $(vL.SharedConfigPath)\$(vL.__QVDIndexStorageName)$(vL.__QVDFileName).Index';
+      execute cmd.exe /Q /C pushd ^"$(vL.SharedConfigPath)\$(vL.__QVDIndexStorageName)^" & Del ^"$(vL.__QVDFileName).Index^" & popd;
+    else 
+      Trace '### DF Warning Could not find $(vL.SharedConfigPath)\$(vL.__QVDIndexStorageName)$(vL.__QVDFileName).Index';
+    endif
+
+    //----------------------- Delete QVD --------------------------------
+    call vL.FileExist ('$(vL.SharedConfigPath)\$(vL.__QVDIndexStorageName)$(vL.__QVDFileName).Index');
+
+    if lower('$(vL._DeleteQVD)') = 'true' and vL.FileExist= 'false' then
+      
+      if not '$(vL.__QVDContainer)'='' and filesize('$(vG.$(vL.__QVDContainer)BasePath)InitLink.qvs') =0 then // Validate if a container needs mounting
+        call LCGV('$(vL.__QVDContainer)','BasePath'); // loading container if missing
+      endif
+   
+      if filesize('$(vG.$(vL.__QVDContainer)BasePath)$(vL.__QVDRelativePath)') > 0 then // validating path      
+        execute cmd.exe /Q /C pushd ^"$(vG.$(vL.__QVDContainer)BasePath)^" & Del ^"$(vL.__QVDRelativePath)^" & popd;
+        Trace '### DF Info, delete QVD $(vG.$(vL.__QVDContainer)BasePath)\$(vL.__QVDRelativePath)';
+      elseif filesize('$(vL.__QVDSourcePath)\$(vL.__QVDFileName)') > 0 then    
+        execute cmd.exe /Q /C pushd ^"$(vL.__QVDSourcePath)^" & Del ^"$(vL.__QVDFileName)^" & popd;
+        Trace '### DF Info, delete QVD $(vL.__QVDSourcePath)\$(vL.__QVDFileName)';
+      else    
+          Trace '### DF Warning Could not find $(vL.__QVDSourcePath)\$(vL.__QVDFileName)';
+      endif
+
+    endif
+  endif
+
+next
+
+else
+trace '### DF Info, Found no index to delete';
+endif
+
+else
+
+Trace '### DF Warning Could load Index table, probably no index exists';
+
+endif
+
+
+// Cleanup
+Set vL._IndexFolderName = ;
+Set vL.FileExist =  ;
+Set vL._AltIndexPath = ;
+Set vL._IndexQVD = ;
+set vL._xxDoDir=;
+set vL._ttDoDir=;
+set vL.__QVDSourcePath=;
+set vL.__IndexFile=;
+set vL.__QVDFileName=;
+set vL.__QVDContainer=;
+set vL.__QVDRelativePath=;
+set vL.__QVDIndexStorageName=;
+set vL.__QVDSourcePath=;
+
+END SUB
+
+// *************************************
+// Functions written by Magnus Berg Qlik
+// *************************************

@@ -1,0 +1,72 @@
+
+Table1:
+Load * Inline [
+FieldA, FieldB, FieldC
+1, A, 1A
+2, B, 2B
+3, C, 3C
+];
+
+Outer Join (Table1)
+Load 
+	Dual(FieldD, FieldA) As FieldA,
+	FieldD,
+	FieldE
+Inline [
+FieldA, FieldD, FieldE
+2, X, 2X
+3, Y, 3Y
+4, Z, 4Z
+];
+
+Rene:
+Load * Inline [
+Field1, Field2
+1, A
+2, B
+3, C
+];
+
+Join (Rene)
+Load * Inline [
+Field3, Field4
+4, X
+5, Y
+6, Z
+];
+
+
+// Multiple keys
+Dimension:
+Load * Inline [
+KeyField, DimensionValue
+1, One
+2, Two
+3, Three.1
+3, Three.2
+3, Three.3
+];
+
+Left Join (Dimension)
+Load * Inline [
+KeyField, Value
+1, 100
+2, 200
+3, 301
+3, 302
+];
+
+
+BigSillyTable:
+Load
+	Floor(Rand()*5) As Key1,
+	Rand()*1000 As Value1
+Autogenerate(1000);
+
+Join
+Load
+	Floor(Rand()*5) As Key1,
+	Rand()*1000 As Value2
+AutoGenerate(1000);
+
+

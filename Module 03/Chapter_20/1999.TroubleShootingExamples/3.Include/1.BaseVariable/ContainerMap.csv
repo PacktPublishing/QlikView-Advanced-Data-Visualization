@@ -1,0 +1,8 @@
+﻿ContainerPathName,ContainerFolderName,ContainerComments,RootPath
+Admin,0.Administration,Default Administration Container,
+Shared,99.Shared_Folders,Container for Shared resources,
+Example,1.Example,Container for Example resources,
+HR,1006.HR_Perspective,Container for HR Perspective,
+,,,
+,,,
+,,,

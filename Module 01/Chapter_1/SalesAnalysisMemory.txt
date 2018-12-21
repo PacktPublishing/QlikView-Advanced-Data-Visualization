@@ -1,0 +1,198 @@
+Class	Type	SubType	Id	Bytes	Count	Size	CalcTime	AvgCalcTime
+Variable	Variable	Internal	vFileName			0	0.0
+Variable	Variable	Internal	CD			0	0.0
+Variable	Variable	Internal	QvPath			0	0.0
+Variable	Variable	Internal	QvRoot			0	0.0
+Variable	Variable	Internal	QvWorkPath			0	0.0
+Variable	Variable	Internal	QvWorkRoot			0	0.0
+Variable	Variable	Internal	WinPath			0	0.0
+Variable	Variable	Internal	WinRoot			0	0.0
+Variable	Variable	Internal	ErrorMode			0	0.0
+Variable	Variable	Internal	StripComments			0	0.0
+Variable	Variable	Internal	OpenUrlTimeout			0	0.0
+Variable	Variable	Internal	ScriptErrorCount			0	0.0
+Variable	Variable	Internal	ScriptErrorList			0	0.0
+Variable	Variable	Internal	ScriptError			0	0.0
+Variable	Variable	Internal	ThousandSep			0	0.0
+Variable	Variable	Internal	DecimalSep			0	0.0
+Variable	Variable	Internal	MoneyThousandSep			0	0.0
+Variable	Variable	Internal	MoneyDecimalSep			0	0.0
+Variable	Variable	Internal	MoneyFormat			0	0.0
+Variable	Variable	Internal	TimeFormat			0	0.0
+Variable	Variable	Internal	DateFormat			0	0.0
+Variable	Variable	Internal	TimestampFormat			0	0.0
+Variable	Variable	Internal	MonthNames			0	0.0
+Variable	Variable	Internal	DayNames			0	0.0
+Variable	Variable	Internal	ScriptErrorDetails			0	0.0
+Variable	Variable	Internal	vCustCount				
+Variable	Variable	Internal	vProdCount				
+Variable	Variable	Internal	vEmpCount				
+Variable	Variable	Internal	vStartYear				
+Variable	Variable	Internal	vEndYear				
+Variable	Variable	Internal	vStartDate				
+Variable	Variable	Internal	vEndDate				
+Variable	Variable	Internal	vNumDays				
+Variable	Variable	Internal	i				
+Variable	Variable	Internal	vRnd				
+Variable	Variable	Internal	vEID				
+Variable	Variable	Internal	vCID				
+Variable	Variable	Internal	vOrderDate				
+Variable	Variable	Internal	vFreight				
+Variable	Variable	Internal	vWeekDay				
+Variable	Variable	Internal	vDateFactor				
+Variable	Variable	Internal	vPCount				
+Variable	Variable	Internal	L				
+Variable	Variable	Internal	vQty				
+Variable	Variable	Internal	vPID				
+Variable	Variable	Internal	vCost				
+Variable	Variable	Internal	vPrice				
+Variable	Variable	Internal	vY				
+Variable	Variable	Internal	vM				
+Variable	Variable	Internal	vD				
+Sheetobject	Button	Internal	Document\BU01	328				
+Sheetobject	InputBox	Internal	Document\IB01	328				
+Sheetobject	ListBox	Internal	Document\LB10	328				
+Sheetobject	ListBox	Internal	Document\LB11	328				
+Sheetobject	ListBox	Internal	Document\LB12	328				
+Sheetobject	ListBox	Internal	Document\LB13	328				
+Sheetobject	ListBox	Internal	Document\LB14	328				
+Sheetobject	ListBox	Internal	Document\LB15	328				
+Sheetobject	ListBox	Internal	Document\LB16	328				
+Sheetobject	ListBox	Internal	Document\LB17	328				
+Sheetobject	ListBox	Internal	Document\LB18	328				
+Sheetobject	ListBox	Internal	Document\LB19	328				
+Sheetobject	ListBox	Internal	Document\LB20	328				
+Sheetobject	ListBox	Internal	Document\LB21	328				
+Sheetobject	ListBox	Internal	Document\LB22	328				
+Sheetobject	ListBox	Internal	Document\LB23	328				
+Sheetobject	ListBox	Internal	Document\LB24	328				
+Sheetobject	ListBox	Internal	Document\LB25	328				
+Sheetobject	ListBox	Internal	Document\LB26	328				
+Sheetobject	ListBox	Internal	Document\LB27	328				
+Sheetobject	ListBox	Internal	Document\LB28	328				
+Sheetobject	ListBox	Internal	Document\LB29	328				
+Sheetobject	ListBox	Internal	Document\LB30	328				
+Sheetobject	ListBox	Internal	Document\LB31	328				
+Sheetobject	ListBox	Internal	Document\LB32	328				
+Sheetobject	ListBox	Internal	Document\LB33	328				
+Sheetobject	ListBox	Internal	Document\LB34	328				
+Sheetobject	ListBox	Internal	Document\LB35	328				
+Database	Table	Records	Product	192	48	4
+Database	Table	Internal	Product	192
+Database	Table	Records	Customer	1000	200	5
+Database	Table	Records	Employee	111	37	3
+Database	Table	Records	OrderHeader	84210	12030	7
+Database	Table	Records	OrderLine	930438	103382	9
+Database	Table	Internal	OrderLine	192
+Database	Table	Records	$$SysTable 5	62	31	2
+Database	Table	Records	$$SysTable 6	5	5	1
+Database	Table	Records	$$SysTable 7	26	26	1
+Database	Table	Records	$Syn 1 Table	192	64	3
+Database	Field	Symbols	$Field	372	26	14.31
+Database	Field	Symbols	$Table	73	5	14.60
+Database	Field	Symbols	$Rows	68	5	13.60
+Database	Field	Symbols	$Fields	44	4	11.00
+Database	Field	Symbols	$FieldNo	88	8	11.00
+Database	Field	Symbols	$Info	6	1	6.00
+Database	Field	Symbols	ProductID	624	48	13.00
+Database	Field	Symbols	Product	659	48	13.73
+Database	Field	Symbols	CategoryID	55	5	11.00
+Database	Field	Symbols	SupplierID	140	10	14.00
+Database	Field	Symbols	CostPrice	956	48	19.92
+Database	Field	Symbols	SalesPrice	1268	64	19.81
+Database	Field	Symbols	CustomerID	2800	200	14.00
+Database	Field	Symbols	Customer	4855	200	24.27
+Database	Field	Symbols	City	80	6	13.33
+Database	Field	Symbols	Country	113	9	12.56
+Database	Field	Symbols	Region	40	3	13.33
+Database	Field	Symbols	Longitude	432	18	24.00
+Database	Field	Symbols	Latitude	430	18	23.89
+Database	Field	Symbols	Geocoordinates	484	18	26.89
+Database	Field	Symbols	EmployeeID	481	37	13.00
+Database	Field	Symbols	Employee	789	37	21.32
+Database	Field	Symbols	Grade	44	4	11.00
+Database	Field	Symbols	SalesUnit	79	5	15.80
+Database	Field	Symbols	OrderID	131014	12030	10.89
+Database	Field	Symbols	OrderDate	347493	12030	28.89
+Database	Field	Symbols	Freight	132740	7024	18.90
+Database	Field	Symbols	LineNo	747	63	11.86
+Database	Field	Symbols	Quantity	1374	114	12.05
+Database	Field	Symbols	SalesCost	900	48	18.75
+Database	Field	Symbols	LineValue	69719	5363	13.00
+Database	Field	Symbols	LineCost	69264	5328	13.00
+Database	Field	Symbols	$Syn 1	0	64	0.00
+State Space	Table State	Internal	Product	48
+State Space	Table State	Internal	Customer	200
+State Space	Table State	Internal	Employee	37
+State Space	Table State	Internal	OrderHeader	12030
+State Space	Table State	Internal	OrderLine	103382
+State Space	Table State	Internal	$$SysTable 5	31
+State Space	Table State	Internal	$$SysTable 6	5
+State Space	Table State	Internal	$$SysTable 7	26
+State Space	Table State	Internal	$Syn 1 Table	64
+State Space	Field State	State	$Field	26	1	26
+State Space	Field State	Selection	$Field	0
+State Space	Field State	State	$Table	5	1	5
+State Space	Field State	Selection	$Table	0
+State Space	Field State	State	$Rows	5	1	5
+State Space	Field State	Selection	$Rows	0
+State Space	Field State	State	$Fields	4	1	4
+State Space	Field State	Selection	$Fields	0
+State Space	Field State	State	$FieldNo	8	1	8
+State Space	Field State	Selection	$FieldNo	0
+State Space	Field State	State	$Info	1	1	1
+State Space	Field State	Selection	$Info	0
+State Space	Field State	State	ProductID	48	1	48
+State Space	Field State	Selection	ProductID	192
+State Space	Field State	State	Product	48	1	48
+State Space	Field State	Selection	Product	384
+State Space	Field State	State	CategoryID	5	1	5
+State Space	Field State	Selection	CategoryID	192
+State Space	Field State	State	SupplierID	10	1	10
+State Space	Field State	Selection	SupplierID	192
+State Space	Field State	State	CostPrice	48	1	48
+State Space	Field State	Selection	CostPrice	384
+State Space	Field State	State	SalesPrice	64	1	64
+State Space	Field State	Selection	SalesPrice	384
+State Space	Field State	State	CustomerID	200	1	200
+State Space	Field State	Selection	CustomerID	192
+State Space	Field State	State	Customer	200	1	200
+State Space	Field State	Selection	Customer	384
+State Space	Field State	State	City	6	1	6
+State Space	Field State	Selection	City	192
+State Space	Field State	State	Country	9	1	9
+State Space	Field State	Selection	Country	192
+State Space	Field State	State	Region	3	1	3
+State Space	Field State	Selection	Region	192
+State Space	Field State	State	Longitude	18	1	18
+State Space	Field State	Selection	Longitude	192
+State Space	Field State	State	Latitude	18	1	18
+State Space	Field State	Selection	Latitude	192
+State Space	Field State	State	Geocoordinates	18	1	18
+State Space	Field State	Selection	Geocoordinates	192
+State Space	Field State	State	EmployeeID	37	1	37
+State Space	Field State	Selection	EmployeeID	192
+State Space	Field State	State	Employee	37	1	37
+State Space	Field State	Selection	Employee	384
+State Space	Field State	State	Grade	4	1	4
+State Space	Field State	Selection	Grade	192
+State Space	Field State	State	SalesUnit	5	1	5
+State Space	Field State	Selection	SalesUnit	192
+State Space	Field State	State	OrderID	12030	1	12030
+State Space	Field State	Selection	OrderID	2176
+State Space	Field State	State	OrderDate	12030	1	12030
+State Space	Field State	Selection	OrderDate	4352
+State Space	Field State	State	Freight	7024	1	7024
+State Space	Field State	Selection	Freight	2304
+State Space	Field State	State	LineNo	63	1	63
+State Space	Field State	Selection	LineNo	384
+State Space	Field State	State	Quantity	114	1	114
+State Space	Field State	Selection	Quantity	384
+State Space	Field State	State	SalesCost	48	1	48
+State Space	Field State	Selection	SalesCost	384
+State Space	Field State	State	LineValue	5363	1	5363
+State Space	Field State	Selection	LineValue	2304
+State Space	Field State	State	LineCost	5328	1	5328
+State Space	Field State	Selection	LineCost	2304
+State Space	Field State	State	$Syn 1	64	1	64
+State Space	Field State	Selection	$Syn 1	0

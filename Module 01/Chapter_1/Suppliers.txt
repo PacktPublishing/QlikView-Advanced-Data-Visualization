@@ -1,0 +1,10 @@
+SupplierID	Company	City	Country
+9001	Amet PC	Apernay	French Polynesia
+9002	Donec Egestas Institute	Memphis	Cambodia
+9003	Aliquet Odio Consulting	Zutphen	Western Sahara
+9004	Proin Industries	Coalhurst	Laos
+9005	Lorem LLP	Merksem	Guatemala
+9006	Ac Metus Incorporated	Armstrong	Barbados
+9007	Est Congue Ltd	Halberstadt	Faroe Islands
+9008	Diam Luctus Lobortis Corp.	Largs	Brazil
+9009	Pellentesque Corporation	Hamme	South Africa

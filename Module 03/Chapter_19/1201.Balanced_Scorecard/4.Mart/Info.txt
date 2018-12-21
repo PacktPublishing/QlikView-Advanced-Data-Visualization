@@ -1,0 +1,10 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// Marts contains QlikView Qvw marts or data discovery usage, these folders could be shared 
+
+Global Variable = vG.MartPath
+Shared Global Variable= vG.SharedMartPath

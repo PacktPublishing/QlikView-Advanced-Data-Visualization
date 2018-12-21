@@ -1,0 +1,12 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// Store for QlikView connection strings
+// vG.ConnStringPath points to 3.Include\3.ConnString 
+// Example $(Include=$(vG.ConnStringPath)\0.Example_Access_Northwind-vG.ConfigPath.qvs);
+
+Global Variable = vG.ConnStringPath
+Shared Global Variable= vG.SharedConnStringPath

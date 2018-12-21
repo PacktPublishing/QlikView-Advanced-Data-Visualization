@@ -1,0 +1,201 @@
+CustomerID	Customer	City	Country	Region	Longitude	Latitude	Geocoordinates
+1001	King Tempore & Co.	Dallas	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1002	Schiller Optio GmbH	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1003	McGlynn Enim Plc	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1004	Towne Eaque Ltd.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1005	Lockman Quisquam Ltd.	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1006	Torphy Rerum GmbH	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1007	Auer Qui Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1008	Armstrong Placeat GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1009	Bergnaum Repudiandae GmbH	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1010	Konopelski Voluptatem GmbH	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1011	Torp Quibusdam GmbH	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1012	Kuhic Ipsum Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1013	Reichert Laudantium Ltd.	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1014	Zboncak Id GmbH	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1015	O'Conner Sed GmbH	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1016	Dietrich Eius GmbH	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1017	Braun Iusto GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1018	Simonis Iure Ltd.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1019	Blick Commodi Inc.	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1020	Ferry Est Plc	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1021	Abshire Sit & Co.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1022	Mann Assumenda & Co.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1023	Mann Rerum & Co.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1024	West Nihil Inc.	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1025	Rohan Laudantium Plc	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1026	Hirthe Est Inc.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1027	Schuster Iusto & Co.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1028	Labadie Omnis & Co.	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1029	Dickens Ex GmbH	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1030	Kutch Corporis & Co.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1031	Kozey Aut & Co.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1032	Metz Quasi Ltd.	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1033	Grant Quae & Co.	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1034	Christiansen Sint Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1035	Wyman Reprehenderit Plc	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1036	Hermann Pariatur Ltd.	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1037	Nitzsche Et GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1038	Tillman Dolor Ltd.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1039	Grant Placeat Ltd.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1040	Koch Nobis GmbH	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1041	Becker Iure GmbH	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1042	Schuster Qui & Co.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1043	Simonis Quae Inc.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1044	Hettinger Blanditiis & Co.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1045	Kessler Consequuntur Plc	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1046	Goldner Non GmbH	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1047	Schulist Nihil Ltd.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1048	Ernser Illum Ltd.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1049	Prosacco Magnam Inc.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1050	Toy Voluptatibus Plc	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1051	Bailey Et Ltd.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1052	Leannon Ut Plc	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1053	Bayer Enim Plc	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1054	Kshlerin Aut & Co.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1055	Simonis Autem Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1056	Feeney Occaecati GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1057	Morar Ut Inc.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1058	Kozey Ipsam GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1059	Hudson Officiis Ltd.	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1060	Dickens Ut Plc	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1061	Mann Vero Inc.	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1062	Legros Praesentium Inc.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1063	Jacobson Eius & Co.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1064	Murphy Molestiae Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1065	Funk Earum Inc.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1066	Waters Necessitatibus Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1067	Stehr Et GmbH	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1068	Runte Rerum GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1069	Kshlerin Repellendus Ltd.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1070	O'Hara Temporibus Inc.	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1071	Maggio Modi Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1072	Bartell Numquam GmbH	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1073	Hauck Inventore & Co.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1074	Gusikowski Voluptas Ltd.	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1075	Davis Nesciunt & Co.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1076	Kulas Optio Ltd.	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1077	Schamberger Voluptas GmbH	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1078	Fritsch Exercitationem Ltd.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1079	Barrows Officiis Ltd.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1080	Borer Numquam Ltd.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1081	Bahringer Tempore Ltd.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1082	Considine Corrupti GmbH	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1083	Carter Illum & Co.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1084	Waelchi Dolor Ltd.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1085	Altenwerth Consequatur Inc.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1086	Denesik Harum GmbH	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1087	Conn Praesentium Plc	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1088	Lebsack Eligendi & Co.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1089	Cronin Illum & Co.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1090	White Eaque Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1091	Green Vel Plc	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1092	Parker In & Co.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1093	Shanahan Aperiam & Co.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1094	Padberg Sit Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1095	Flatley Dolores Plc	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1096	King Nulla Inc.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1097	Friesen Error Ltd.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1098	Rowe Ut GmbH	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1099	Emard Non & Co.	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1100	Fisher Magnam Ltd.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1101	Gleason Et Inc.	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1102	Blick Est GmbH	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1103	Swaniawski Dolorem Inc.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1104	Hagenes Veniam & Co.	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1105	Zboncak Ipsam Ltd.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1106	DuBuque Neque Ltd.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1107	Schumm Qui Ltd.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1108	McCullough Ea Ltd.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1109	Stracke Repudiandae Inc.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1110	Heaney Dolorem GmbH	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1111	Bauch Sunt Plc	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1112	Schaden Reiciendis Plc	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1113	Murazik Ut Inc.	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1114	Krajcik Voluptas Plc	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1115	Hills Et GmbH	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1116	Harber Animi & Co.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1117	Hessel Explicabo Inc.	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1118	Schowalter Voluptatibus Ltd.	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1119	Fisher Ut Plc	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1120	Goldner Dolor Plc	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1121	Schroeder Et Inc.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1122	Baumbach Molestiae Inc.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1123	Considine Impedit Plc	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1124	Carter Omnis Ltd.	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1125	Marquardt Et & Co.	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1126	Buckridge Sit Ltd.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1127	Gorczany Est Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1128	Vandervort Est Plc	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1129	Reichel Eveniet GmbH	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1130	McKenzie Cumque Ltd.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1131	Haley Debitis GmbH	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1132	Hudson Sit Plc	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1133	Pouros Et Plc	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1134	Powlowski Ut Ltd.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1135	Strosin Voluptatem Inc.	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1136	Wolff Dignissimos Ltd.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1137	Tromp Odit Inc.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1138	Mueller Eveniet GmbH	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1139	Stark Quidem & Co.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1140	Labadie Voluptas Ltd.	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1141	Koepp Quod Plc	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1142	Huel Accusamus GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1143	Goodwin Architecto Inc.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1144	Barrows Eligendi GmbH	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1145	Fadel Eum GmbH	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1146	Brekke Rerum Ltd.	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1147	Brown Et Inc.	Birmingham	USA	Americas	-77.014576	38.8935965	-77.014576,38.8935965
+1148	Daniel Maxime GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1149	Brakus Voluptas Ltd.	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1150	Marvin Consequatur GmbH	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1151	Hane Sunt & Co.	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1152	Lebsack Et & Co.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1153	Brown Hic GmbH	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1154	Aufderhar Omnis Plc	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1155	Nader Libero GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1156	Bogan Ea GmbH	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1157	Robel Facere Ltd.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1158	Howe Quia & Co.	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1159	Bailey Ad GmbH	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1160	Waelchi Veritatis GmbH	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1161	Lynch Laboriosam Inc.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1162	Morar Mollitia & Co.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1163	Mante Dicta GmbH	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1164	Baumbach Eius Inc.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1165	Heller Vero GmbH	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1166	Stamm Quidem GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1167	Swaniawski Suscipit Inc.	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1168	Friesen Qui Ltd.	Birmingham	France	Europe	2.3470599	48.8588589	2.3470599,48.8588589
+1169	Greenholt Aliquam Inc.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1170	Bruen Error Plc	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1171	Schumm Sunt Plc	Birmingham	Germany	Europe	8.6365638	50.121212	8.6365638,50.121212
+1172	Schimmel Omnis GmbH	Birmingham	USA	Americas	-96.7313396	32.8206645	-96.7313396,32.8206645
+1173	Feeney Sunt Inc.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1174	Kreiger Blanditiis & Co.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1175	Kuhn Facilis Inc.	Birmingham	United Kingdom	Europe	-1.8636315	52.4774376	-1.8636315,52.4774376
+1176	Schneider Quos & Co.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1177	Franecki Eveniet Ltd.	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1178	Abshire Pariatur Inc.	New York	USA	Americas	-73.9780035	40.7056308	-73.9780035,40.7056308
+1179	Keebler Quasi Ltd.	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425
+1180	Fisher Magni & Co.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1181	Tromp Mollitia Ltd.	Birmingham	India	Asia/Pac	72.8812042	19.0822507	72.8812042,19.0822507
+1182	Reichel Laboriosam Plc	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1183	Sipes Minus GmbH	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1184	Funk Voluptas Plc	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1185	Boyle Quia & Co.	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1186	Tromp Sed Plc	Shanghai	China	Asia/Pac	121.4767528	31.2243489	121.4767528,31.2243489
+1187	Baumbach Ex Inc.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1188	King Laboriosam GmbH	Dublin	Ireland	Europe	-6.251695	53.3243201	-6.251695,53.3243201
+1189	Kunze Minima Ltd.	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1190	Toy Sint GmbH	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1191	Langworth Quia Ltd.	Birmingham	USA	Americas	-118.4117325	34.0204989	-118.4117325,34.0204989
+1192	Beier Vitae Ltd.	Birmingham	Canada	Americas	-73.7120832	45.5601062	-73.7120832,45.5601062
+1193	Boyle Dolorum GmbH	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1194	Dibbert Recusandae & Co.	Birmingham	Germany	Europe	6.8143502	51.2384547	6.8143502,51.2384547
+1195	Simonis Praesentium & Co.	Birmingham	USA	Americas	-86.850137	33.5312374	-86.850137,33.5312374
+1196	Runolfsdottir Voluptas Plc	Birmingham	Russia	Europe	37.632495	55.749792	37.632495,55.749792
+1197	Kulas In Ltd.	Birmingham	France	Europe	5.405139	43.2803905	5.405139,43.2803905
+1198	Tromp Consequatur GmbH	London	United Kingdom	Europe	-0.1015987	51.5286416	-0.1015987,51.5286416
+1199	Green Illum Plc	Birmingham	United Kingdom	Europe	-2.2235922	53.4722454	-2.2235922,53.4722454
+1200	Mitchell Dolores Ltd.	Birmingham	Canada	Americas	-123.123904	49.2569425	-123.123904,49.2569425

@@ -1,0 +1,36 @@
+Let vStartDate=Floor(MakeDate(2009,1,1));
+Let vEndDate=Floor(Today());
+Let vDiff=vEndDate-vStartDate+1;
+
+//MinMaxDates:
+//Load
+//	Min(OrderDate) As MinDate,
+//	Max(OrderDate) As MaxDate
+//Resident
+//	Fact;
+//
+//Let vStartDate=Peek('MinDate');
+//Let vEndDate=Peek('MaxDate');
+//
+//Drop Table MinMaxDates;
+
+
+Calendar:
+Load *,
+	Date(MonthStart(DateID), 'YYYY-MM') As YearMonth,
+	Year & '-' & Quarter As YearQuarter,
+	WeekYear & '-' & Num(Week, '00') As YearWeek;
+Load
+	DateID,
+	Year(DateID) As Year,
+	Month(DateID) As Month,
+	Date(DateID) As Date,
+	Day(DateID) As Day,
+	Week(DateID) As Week,
+	'Q' & Ceil(Month(DateID)/3) As Quarter,
+	WeekYear(DateID) As WeekYear,
+	-Year2Date(DateID) As YTD_Flag,
+	-Year2Date(DateID, -1) As LYTD_Flag;
+Load 
+	RecNo()-1+$(vStartDate) As DateID
+AutoGenerate($(vDiff));

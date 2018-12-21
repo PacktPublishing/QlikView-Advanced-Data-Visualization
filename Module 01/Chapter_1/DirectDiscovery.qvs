@@ -1,0 +1,127 @@
+﻿///$tab Main
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET MoneyThousandSep=',';
+SET MoneyDecimalSep='.';
+SET MoneyFormat='€#,##0.00;-€#,##0.00';
+SET TimeFormat='hh:mm:ss';
+SET DateFormat='DD/MM/YYYY';
+SET TimestampFormat='DD/MM/YYYY hh:mm:ss[.fff]';
+SET MonthNames='Jan;Feb;Mar;Apr;May;Jun;Jul;Aug;Sep;Oct;Nov;Dec';
+SET DayNames='Mon;Tue;Wed;Thu;Fri;Sat;Sun';
+
+Country_Sort:
+Load * Inline [
+Country
+USA
+Canada
+Germany
+United Kingdom
+China
+India
+Russia
+France
+Ireland
+];
+
+Category_Map:
+Mapping
+LOAD CategoryID, 
+     Category
+FROM
+[..\Scripts\Categories.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Product:
+LOAD ProductID, 
+     Product, 
+     //CategoryID, 
+     ApplyMap('Category_Map', CategoryID, 'Other') As Category,
+     SupplierID, 
+     CostPrice, 
+     SalesPrice as ProductPrice
+FROM
+[..\Scripts\Products.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Supplier:
+Join (Product)
+LOAD SupplierID, 
+     Company As Supplier, 
+     City as [Supplier City], 
+     Country as [Supplier Country]
+FROM
+[..\Scripts\Suppliers.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Drop Field SupplierID;
+
+Customer:
+LOAD CustomerID, 
+     Customer, 
+     City, 
+     Country, 
+     Region, 
+     Longitude, 
+     Latitude, 
+     Geocoordinates
+FROM
+[..\Scripts\Customers.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+EmployeeGrade_Map:
+Mapping
+LOAD Grade, 
+     Description
+FROM
+[..\Scripts\EmployeeGrades.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Employee:
+LOAD EmployeeID, 
+     AutoNumber(EmployeeID, 'Employee') As Employee, 
+     //Grade, 
+     ApplyMap('EmployeeGrade_Map', Grade, 'Other') As Grade,
+     SalesUnit
+FROM
+[..\Scripts\Employees.txt]
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Calendar:
+Load Distinct
+	 FLOOR(OrderDate) As DateID,
+	 -YearToDate(OrderDate) As YTD_Flag,
+	 -YearToDate(OrderDate,-1) As LYTD_Flag,
+	 Date(OrderDate) As Date,
+     Year(OrderDate) As Year,
+     Month(OrderDate) As Month,
+     Day(OrderDate) As Day,
+     Date(MonthStart(OrderDate), 'YYYY-MM') As YearMonth
+FROM
+[..\Scripts\OrderHeader.qvd]
+(qvd);
+
+
+Drop Table Country_Sort;
+
+
+// Connect to database
+OLEDB CONNECT TO [Provider=SQLNCLI10.1;Persist Security Info=True;User ID=sa;Initial Catalog=QWT;Data Source=(local);Use Procedure for Prepare=1;Auto Translate=True;Packet Size=4096;Workstation ID=BABEL;Initial File Name="";Use Encryption for Data=False;Tag with column collation when possible=False;MARS Connection=False;DataTypeCompatibility=0;Trust Server Certificate=False] (XPassword is YKSdUABOQDbKWZJFeH);
+
+DIRECT QUERY
+dimension
+	OrderID,
+	Native('FLOOR(OrderDate)') As DateID,
+    CustomerID,
+    EmployeeID,
+    ProductID
+measure
+    Quantity,
+    SalesPrice,
+    LineValue,
+    LineCost	
+detail
+    Freight,
+    LineNo
+FROM QWT.dbo."Order_Fact";
+

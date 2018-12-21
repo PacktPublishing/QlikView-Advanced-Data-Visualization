@@ -1,0 +1,13 @@
+SUB TraceRowCount (SourceTable) 
+// Writes the number of rows in SourceTable
+// to the Script Execution Progress window.
+
+  IF not IsNull(SourceTable) THEN
+    LET vNoOfRows = NoOfRows('$(SourceTable)');
+    TRACE >>> Number of rows in $(SourceTable): $(vNoOfRows);
+    LET vNoOfRows = Null();
+  ELSE
+    TRACE >>> No table name specified;
+  END IF
+
+END SUB

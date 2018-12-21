@@ -1,0 +1,10 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// ImportPath Folder is used to store data imports from external systems 
+
+Global Variable = vG.ImportPath
+Global Variable = vG.SharedImportPath

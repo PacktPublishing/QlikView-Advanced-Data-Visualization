@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <QvdTableHeader>
+   <QvBuildNo>12664</QvBuildNo>
+   <CreatorDoc>C:\QV-Docs\SourceDocs\1.Development\1001.Sales_Perspective\2.QVD\2.Transform\Sales_Transform.qvw</CreatorDoc>
+   <CreateUtcTime>2015-12-08 00:04:47</CreateUtcTime>
+   <SourceCreateUtcTime></SourceCreateUtcTime>
+   <SourceFileUtcTime></SourceFileUtcTime>
+   <SourceFileSize>-1</SourceFileSize>
+   <StaleUtcTime></StaleUtcTime>
+   <TableName>Addresses</TableName>
+   <Fields>
+     <QvdFieldHeader>
+       <FieldName>_KEY_ShippingAddress</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>8</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>18</NoOfSymbols>
+       <Offset>0</Offset>
+       <Length>90</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$key</String>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping Address</FieldName>
+       <BitOffset>8</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>18</NoOfSymbols>
+       <Offset>90</Offset>
+       <Length>354</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping City</FieldName>
+       <BitOffset>13</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>17</NoOfSymbols>
+       <Offset>444</Offset>
+       <Length>194</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping State</FieldName>
+       <BitOffset>28</BitOffset>
+       <BitWidth>4</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>14</NoOfSymbols>
+       <Offset>638</Offset>
+       <Length>151</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping Country</FieldName>
+       <BitOffset>0</BitOffset>
+       <BitWidth>0</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>1</NoOfSymbols>
+       <Offset>789</Offset>
+       <Length>15</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$ascii</String>
+         <String>$text</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping Latitude</FieldName>
+       <BitOffset>18</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>18</NoOfSymbols>
+       <Offset>804</Offset>
+       <Length>306</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+       </Tags>
+     </QvdFieldHeader>
+     <QvdFieldHeader>
+       <FieldName>Shipping Longitude</FieldName>
+       <BitOffset>23</BitOffset>
+       <BitWidth>5</BitWidth>
+       <Bias>0</Bias>
+       <NumberFormat>
+         <Type>UNKNOWN</Type>
+         <nDec>0</nDec>
+         <UseThou>0</UseThou>
+         <Fmt></Fmt>
+         <Dec></Dec>
+         <Thou></Thou>
+       </NumberFormat>
+       <NoOfSymbols>18</NoOfSymbols>
+       <Offset>1110</Offset>
+       <Length>325</Length>
+       <Comment></Comment>
+       <Tags>
+         <String>$numeric</String>
+       </Tags>
+     </QvdFieldHeader>
+   </Fields>
+   <Compression></Compression>
+   <RecordByteSize>4</RecordByteSize>
+   <NoOfRecords>18</NoOfRecords>
+   <Offset>1435</Offset>
+   <Length>72</Length>
+   <Lineage>
+     <LineageInfo>
+       <Discriminator>INLINE</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>RESIDENT Addresses_Tmp</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>RESIDENT Facts</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Addresses.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Currency.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Customers.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Document_Type.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Facts.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - Items.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>STORE - SalesReps.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\customer_creditnotes.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\customer_invoices.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\customergroups.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\customers.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\documenttypes.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\itemgroups.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\items.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\mock_customer_data.csv</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\salespersons.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\vendorgroups.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+     <LineageInfo>
+       <Discriminator>c:\qv-docs\sourcedocs\1.development\1001.sales_perspective\2.qvd\1.extract\vendors.qvd</Discriminator>
+       <Statement></Statement>
+     </LineageInfo>
+   </Lineage>
+   <Comment></Comment>
+ </QvdTableHeader>
+ 1|1 2|1 3|1 4|1 5|1 6|1 7|1 8|1 9|1 1|2 2|2 3|2 4|2 5|2 6|2 7|2 8|2 9|2 1170 Jenifer Hill 307 Redwing Avenue 57 Dakota Junction 81 Esker Alley 35 Eastwood Parkway 7 Bartillon Alley 4879 Vidon Lane 7 Veith Trail 784 Norway Maple Road 66 Mesta Avenue 7 Loftsgordon Terrace 1492 Hansons Drive 915 Maple Trail 79 Loftsgordon Crossing 17 Delladonna Lane 192 Anthes Junction 51951 Cottonwood Plaza 537 Leroy Point Orlando Brooklyn Springfield Dayton Duluth Daytona Beach Wilkes Barre Saint Paul Montgomery Madison Winston Salem Sacramento Nashville Los Angeles Spokane Des Moines Montpelier Florida New York Massachusetts Ohio Minnesota Pennsylvania Alabama Wisconsin North Carolina California Tennessee Washington Iowa Vermont United States ›$Åï€C@39.7155 õÊßËàE@43.0696 ÏQ∏ÖB@36.0275 U¡®§N0C@38.3774 |a2UB@36.1901 [B>ËŸ¸@@33.9754 öwú¢#ŸG@47.6964 X®5Õ;∆D@41.5487 ß∆K7!F@44.2595 V}Æ∂bE@42.1827 &¬ÜßWrC@38.8933 ≤.n£D@40.0938 æ0ô*ÿ;@27.8444 U¡®§NÄC@39.0024 &‰ÉûÕR@@32.6469 _òL<E@42.4694 É/L¶
+V@@32.6722 Ú“MbÄ@@33.0005 ºñêz
+U¿-84.1637 ê1w-![V¿-89.4239 ~8gDT¿-80.2073 Íï≤q\^¿-121.4444 ﬁ	ä≥U¿-86.8053 ¶õƒ ∞ö]¿-118.417 ™`TR'\]¿-117.4399 EÿÙJeW¿-93.5827 =
+◊£p%R¿-72.585 ™`TR'T¿-80.0649 b°÷4Ô@S¿-77.0146 √”+ejU¿-85.6578 ÇsFîˆ≤T¿-82.7963 öûFS¿-77.1034 ·zÆGUX¿-97.3325  cÓZBæQ¿-70.9728 D˙ÌÎ¿1X¿-96.7774 >yX®55X¿-96.8314     !ÑB!cå1ÑB•î∆SÁúC!d	i§4
+*)uK≠Öl1ñçµ¶Æ9óœΩ∑A»∆ÿ

@@ -1,0 +1,10 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// QVD file storage, use subfolders
+
+Global Variable = vG.QVDPath
+Shared Global Variable= vG.SharedQVDPath

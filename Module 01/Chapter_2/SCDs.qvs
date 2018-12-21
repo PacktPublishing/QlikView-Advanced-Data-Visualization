@@ -1,0 +1,64 @@
+
+SalesPerson:
+//Load * Inline [
+Load
+	AutoNumber(SalesPersonID & '-' & Territory & '-' & From, 'SP') As SP_ID,
+	SalesPersonID,
+	Name,
+	Territory,
+	From,
+	If(Len(To)=0, Today(), To) As To
+Inline [
+SalesPersonID, Name, Territory, From, To
+1, Joe Bloggs, NE, 2009-01-01, 
+2, Jane Doe, Inside, 2009-01-01, 2013-12-31
+2, Jane Doe, NW, 2014-01-01, 
+];
+
+//// Type 2 to Type 1
+//Inner Join (SalesPerson)
+//Load
+//	SalesPersonID,
+//	FirstSortedValue(Distinct Territory, -From, 1) As Territory
+//Resident
+//	SalesPerson
+//Group by SalesPersonID;
+
+// Fact table
+Fact:
+Load * Inline [
+OrderDate, SalesPersonID, Sales Value
+2013-01-01, 1, 100
+2013-02-01, 2, 100
+2014-01-01, 1, 100
+2014-02-01, 2, 100
+];
+
+LinkTable:
+IntervalMatch(OrderDate, SalesPersonID)
+Load
+	From,
+	To,
+	SalesPersonID
+Resident
+	SalesPerson;
+
+Left Join (LinkTable)
+Load
+	From,
+	To,
+	SalesPersonID,
+	SP_ID
+Resident
+	SalesPerson;
+	
+Left Join (Fact)
+Load
+	OrderDate,
+	SalesPersonID,
+	SP_ID
+Resident
+	LinkTable;
+	
+Drop Table LinkTable;
+Drop Field SalesPersonID From Fact;

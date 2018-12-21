@@ -1,0 +1,28 @@
+
+Dimension:
+Load * Inline [
+CustomerID, Customer, Country
+0, Missing, Missing
+1, Customer A, USA
+2, Customer B, USA
+3, Customer C, UK
+4, Customer D, UK
+];
+
+Fact:
+Load  //*
+	Date,
+	If(Len(CustomerID)=0, 0, CustomerID) As CustomerID,
+	[Sales Value]
+Inline [
+Date, CustomerID, Sales Value
+2014-01-01, 1, 100
+2014-01-01, 2, 100
+2014-01-01, 3, 100
+2014-01-01, 4, 100
+2014-01-01, , 100
+2014-01-02, 1, 100
+2014-01-02, 2, 100
+2014-01-02, 4, 100
+];
+

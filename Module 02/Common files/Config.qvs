@@ -1,0 +1,2 @@
+// Data folders
+SET vFolderSourceData = '..\Data Files\';

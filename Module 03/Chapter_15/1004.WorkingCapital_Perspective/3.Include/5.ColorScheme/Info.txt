@@ -1,0 +1,13 @@
+//  ____________________________________________________________
+// |      Deployment Framework Path Info txt                   |
+// | Contains information folder purpose and base variable     |
+// |  All path are based on vG.BasePath                        |
+// |___________________________________________________________|
+
+// vG.ColorSchemePath points to 3.Include\5.ColorScheme
+
+// Used for RGB Color variables for easy use
+// Example SET vG.HelpColor = RGB(234,94,13);
+
+Global Variable = vG.ColorSchemePath
+Shared Global Variable= vG.SharedColorSchemePath

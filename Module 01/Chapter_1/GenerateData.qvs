@@ -1,0 +1,191 @@
+// Load my auto generated dimension files
+Product:
+LOAD ProductID, 
+     Product, 
+     CategoryID, 
+     SupplierID, 
+     Money#(CostPrice, '$#,##0.00') As CostPrice, 
+     Money#(SalesPrice, '$#,##0.00') As SalesPrice
+FROM
+Products.txt
+(txt, utf8, embedded labels, delimiter is '\t', msq);
+
+Product_Cost_Map:
+Mapping Load
+	ProductID,
+	Num(CostPrice)
+Resident Product;
+
+Product_Price_Map:
+Mapping Load
+	ProductID,
+	Num(SalesPrice)
+Resident Product;
+
+Customer:
+LOAD CustomerID, 
+     Customer, 
+     City, 
+     Country, 
+     Region, 
+     Longitude, 
+     Latitude, 
+     Geocoordinates
+FROM
+Customers.txt
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq);
+
+Employee:
+LOAD EmployeeID, 
+     Employee, 
+     Grade, 
+     SalesUnit
+FROM
+Employees.txt
+(txt, codepage is 1252, embedded labels, delimiter is '\t', msq)
+Where Match(Grade, 0, 1, 2, 3);  // Sales people
+
+// Count the ID records in each table
+Let vCustCount=FieldValueCount('CustomerID');
+Let vProdCount=FieldValueCount('ProductID');
+Let vEmpCount=FieldValueCount('EmployeeID');
+
+// Work out the days
+Let vStartYear=2009;      // Arbitrary - change if wanted
+Let vEndYear=Year(Now()); // Generate up to date data
+// Starting the date in April to allow
+// offset year testing
+Let vStartDate=Floor(MakeDate($(vStartYear),4,1));
+Let vEndDate=Floor(MakeDate($(vEndYear),3,31));
+Let vNumDays=vEndDate-vStartDate+1;
+
+// Create a loop of 1000 itterations
+For i=1 to 10000
+
+	// "A" type records are for any date/time
+
+	// Grab a random employee and customer
+	Let vRnd = Floor(Rand() * $(vEmpCount));
+	Let vEID = Peek('EmployeeID', $(vRnd), 'Employee');
+	Let vRnd = Floor(Rand() * $(vCustCount));
+	Let vCID = Peek('CustomerID', $(vRnd), 'Customer');	
+
+	// Create a date for any Time of Day  9-5
+	Let vOrderDate = $(vStartDate) + Floor(Rand() * $(vNumDays)) + ((9/24) + (Rand()/3));
+
+	// Calculate a random freight amount 
+	Let vFreight = Round(Rand() * 100, 0.01);
+
+	// Create the header record
+	OrderHeader:
+	Load
+		'A' & $(i) 		As OrderID,
+		$(vOrderDate) 	As OrderDate,
+		$(vCID) 		As CustomerID,
+		$(vEID) 		As EmployeeID,
+		$(vFreight) 	As Freight
+	AutoGenerate(1);
+
+	// Generate Order Lines
+
+	// This factor allows us to generate a different number of
+	// lines depending on the day of the week 
+	Let vWeekDay = Num(WeekDay($(vOrderDate)));
+	Let vDateFactor = Pow(2,$(vWeekDay))*(1-(Year(Now())-Year($(vOrderDate)))*0.05);
+	
+	// Calculate the random number of lines 
+	Let vPCount = Floor(Rand() * $(vDateFactor)) + 1;
+	
+	For L=1 to $(vPCount)
+	
+		// Calculate random values
+		Let vQty = Floor(Rand() * (50+$(vDateFactor))) + 1;
+		Let vRnd = Floor(Rand() * $(vProdCount));
+		Let vPID = Peek('ProductID', $(vRnd), 'Product');
+		Let vCost = ApplyMap('Product_Cost_Map', $(vPID), 1);
+		Let vPrice = ApplyMap('Product_Price_Map', $(vPID), 1);
+
+		OrderLine:
+		Load
+			'A' & $(i) 		As OrderID,
+			$(L)			As LineNo,
+			$(vPID)			As ProductID,
+			$(vQty)			As Quantity,
+			$(vPrice)		As SalesPrice,
+			$(vCost)		As SalesCost,
+			$(vQty)*$(vPrice) As LineValue,
+			$(vQty)*$(vCost) As LineCost
+		AutoGenerate(1);
+	
+	Next
+
+	// "B" type records are for summer peak
+
+	// Summer Peak - Generate additional records for summer
+	// months to simulate a peak trading period 
+	Let vY = Year($(vOrderDate));
+	Let vM = Floor(Rand()*2)+7;
+	Let vD = Day($(vOrderDate));
+	Let vOrderDate = Floor(MakeDate($(vY),$(vM),$(vD))) + ((9/24) + (Rand()/3));
+
+	if Rand() > 0.8 Then
+	
+		// Grab a random employee and customer
+		Let vRnd = Floor(Rand() * $(vEmpCount));
+		Let vEID = Peek('EmployeeID', $(vRnd), 'Employee');
+		Let vRnd = Floor(Rand() * $(vCustCount));
+		Let vCID = Peek('CustomerID', $(vRnd), 'Customer');	
+	
+		// Calculate a random freight amount 
+		Let vFreight = Round(Rand() * 100, 0.01);
+	
+		// Create the header record
+		OrderHeader:
+		Load
+			'B' & $(i) 		As OrderID,
+			$(vOrderDate) 	As OrderDate,
+			$(vCID) 		As CustomerID,
+			$(vEID) 		As EmployeeID,
+			$(vFreight) 	As Freight
+		AutoGenerate(1);
+	
+		// Generate Order Lines
+	
+		// This factor allows us to generate a different number of
+		// lines depending on the day of the week 
+		Let vWeekDay = Num(WeekDay($(vOrderDate)));
+		Let vDateFactor = Pow(2,$(vWeekDay))*(1-(Year(Now())-Year($(vOrderDate)))*0.05);
+		
+		// Calculate the random number of lines 
+		Let vPCount = Floor(Rand() * $(vDateFactor)) + 1;
+		
+		For L=1 to $(vPCount)
+		
+			// Calculate random values
+			Let vQty = Floor(Rand() * (50+$(vDateFactor))) + 1;
+			Let vRnd = Floor(Rand() * $(vProdCount));
+			Let vPID = Peek('ProductID', $(vRnd), 'Product');
+			Let vCost = ApplyMap('Product_Cost_Map', $(vPID), 1);
+			Let vPrice = ApplyMap('Product_Price_Map', $(vPID), 1);
+	
+			OrderLine:
+			Load
+				'B' & $(i) 		As OrderID,
+				$(L)			As LineNo,
+				$(vPID)			As ProductID,
+				$(vQty)			As Quantity,
+				$(vPrice)		As SalesPrice,
+				$(vCost)		As SalesCost,
+				$(vQty)*$(vPrice) As LineValue,
+				$(vQty)*$(vCost) As LineCost
+			AutoGenerate(1);
+		
+		Next
+
+	End if
+
+Next
+
+// Store the Generated Data to QVD
+Store OrderHeader into OrderHeader.qvd;
+Store OrderLine into OrderLine.qvd;

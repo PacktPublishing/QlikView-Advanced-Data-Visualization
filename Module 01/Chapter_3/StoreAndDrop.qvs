@@ -1,0 +1,19 @@
+Sub StoreAndDrop(vTableName, vPrefix, vQVDFolder)
+
+	Store [$(vTableName)] into [$(vQVDFolder)\$(vPrefix)$(vTableName).qvd];
+	
+	Drop Table [$(vTableName)];
+
+End Sub
+
+Table1:
+Load RecNo() as Table1Row
+AutoGenerate(10);
+
+Call StoreAndDrop('Table1', 'E_', 'C:\Temp');
+
+Table2:
+Load RecNo() as Table2Row
+AutoGenerate(10);
+
+Call StoreAndDrop('Table2', 'EX_', '.\');

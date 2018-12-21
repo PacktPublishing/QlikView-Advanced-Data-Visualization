@@ -1,0 +1,7 @@
+//  _____________________________________________________________________
+// |    Deployment Framework Create-prj.cmd and Remove-prj.cmd          |
+// | Script for -prj folder creation beside the qvw files   	        |
+// | The -prj folder is used for version control of objects and scripts |
+// |   No configuration needed, works with both physical and UNC path   |
+// |____________________________________________________________________|
+
