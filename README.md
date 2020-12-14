@@ -1,3 +1,8 @@
+## $5 Tech Unlocked 2021!
+[Buy and download this Course for only $5 on PacktPub.com](https://www.packtpub.com/product/qlikview-advanced-data-visualization/9781789955996)
+-----
+*The $5 campaign         runs from __December 15th 2020__ to __January 13th 2021.__*
+
 # QlikView Advanced Data Visualizaton
 QlikView is one of the most flexible and powerful business intelligence platforms around, and if you want to transform data into insights, it is one of the best options you have at hand. Use this Learning Path, to explore the many features of QlikView to realize the potential of your data and present it as impactful and engaging visualizations.
 
