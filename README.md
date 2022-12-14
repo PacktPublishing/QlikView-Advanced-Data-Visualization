@@ -1,3 +1,15 @@
+
+### Get this product for $5
+
+<i>Packt is having its biggest sale of the year. Get this eBook or any other book, video, or course that you like just for $5 each</i>
+
+
+<b><p align='center'>[Buy now](https://packt.link/9781789955996)</p></b>
+
+
+<b><p align='center'>[Buy similar titles for just $5](https://subscription.packtpub.com/search)</p></b>
+
+
 # QlikView Advanced Data Visualizaton
 QlikView is one of the most flexible and powerful business intelligence platforms around, and if you want to transform data into insights, it is one of the best options you have at hand. Use this Learning Path, to explore the many features of QlikView to realize the potential of your data and present it as impactful and engaging visualizations.
 
